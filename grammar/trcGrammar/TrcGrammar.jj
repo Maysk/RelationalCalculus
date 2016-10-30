@@ -117,10 +117,11 @@ AtomicFormula atomicFormula():
 
 Query query():
 {
-	
+	Query q = new Query();
 }
 {
 	<LBRACE>
 	 <IDENTIFICADOR> <MEIODAQUERY> af = atomicFormula()
 	<RBRACE>
+	{return q;}
 }

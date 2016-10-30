@@ -23,11 +23,14 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   static final public Query query() throws ParseException {
+        Query q = new Query();
     jj_consume_token(LBRACE);
     jj_consume_token(IDENTIFICADOR);
     jj_consume_token(MEIODAQUERY);
     af = atomicFormula();
     jj_consume_token(RBRACE);
+         {if (true) return q;}
+    throw new Error("Missing return statement in function");
   }
 
   static private boolean jj_initialized_once = false;
