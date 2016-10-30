@@ -1,0 +1,126 @@
+/*
+* Tuple Relational Query Specification
+*/
+
+options
+{
+  static = true;
+}
+
+PARSER_BEGIN(TrcGrammar)
+package trcGrammar;
+import trcQueryElements.*;
+
+public class TrcGrammar
+{
+  public static void main(String args []) throws ParseException
+  {
+    TrcGrammar parser = new TrcGrammar(System.in);
+ 	Query p = parser.query();   
+  }
+}
+
+PARSER_END(TrcGrammar)
+
+
+
+//TODO: Definir comentarios no skip
+TOKEN:
+{
+    < #BREAKLINE  : "\n"|"\r\n" >
+}
+
+SKIP :
+{
+  " "
+| "\r"
+| "\r\n"
+| "\t"
+| "\n"
+}
+
+SPECIAL_TOKEN :
+{
+  <COMENTARIO_UMA_LINHA: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+}
+
+TOKEN: /*ABREVIACOES*/
+{
+  < #LETRA : ["a"-"z"]|["A"-"Z"] >
+| < #DIGITO : ["0"-"9"] >
+}
+
+/* OPERADORES LOGICOS */
+TOKEN :
+{
+  <OR : "OR">
+  | <AND : "AND">
+  | <NOT : "NOT">
+}
+
+/*QUANTIFICADORES*/
+TOKEN :
+{
+  <EXISTS : "EXISTS">
+  | <FORALL : "FORALL">
+}
+
+
+/*COMPARADORES*/
+TOKEN :
+{
+  <LPAREN : "(">
+  | <RPAREN : ")">
+  | <LBRACE : "{">
+  | <RBRACE : "}">
+  | <LESSTHAN : "<">
+  | <LESSOREQUALTHAN : "<=">
+  | <GREATERTHAN : ">">
+  | <GREATEROREQUALTHAN : ">=">
+  | <EQUALS : "==">
+  | <NOTEQUALS : "<>" | "!="> 
+
+}
+
+TOKEN : /*CONSTANTES*/
+{
+  < INTEIRO_LITERAL : (< DIGITO >)+ >
+  | < STRING_LITERAL : "'"(<LETRA>)*"'">
+  | < TRUEVALUE : "TRUE" >
+  | < FALSEVALUE : "FALSE" >
+}
+
+TOKEN : /*IDENTIFICADOR*/
+{
+  < IDENTIFICADOR : ( < LETRA > )(< LETRA > | "_" | < DIGITO >)*  >
+}
+
+TOKEN :
+{
+	<MEIODAQUERY  :"|">
+}
+
+
+
+
+AtomicFormula atomicFormula():
+{
+	AtomicFormula af;
+	String tableName;
+	String tupleName;
+}
+{
+	tableName = <IDENTIFICADOR> <LPAREN> tupleName = <IDENTIFICADOR> <RPAREN> {af = new AtomicFormulaIsA(tableName, tupleName);}
+	{return af;}
+}
+
+
+Query query():
+{
+	
+}
+{
+	<LBRACE>
+	 <IDENTIFICADOR> <MEIODAQUERY> af = atomicFormula()
+	<RBRACE>
+}

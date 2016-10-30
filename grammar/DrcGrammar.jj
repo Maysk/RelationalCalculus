@@ -91,10 +91,21 @@ TOKEN :
 }
 
 
-TOKEN : 
+
+TOKEN : /*IDENTIFICADOR*/
 {
-  <NAME : ( < LETRA > )(< LETRA > | "_" | < DIGITO >)* >
+  < IDENTIFICADOR : ( < LETRA > )(< LETRA > | "_" | < DIGITO >)*  >
 }
+
+TOKEN : /*CONSTANTES*/
+{
+  < INTEIRO_LITERAL : (< DIGITO >)+ >
+  | < STRING_LITERAL : "'"(<LETRA>)*"'">
+  | < TRUEVALUE : "TRUE" >
+  | < FALSEVALUE : "FALSE" >
+}
+
+
 
 Query query():
 {}
