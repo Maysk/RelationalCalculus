@@ -93,6 +93,7 @@ TOKEN : /*CONSTANTES*/
 TOKEN : /*IDENTIFICADOR*/
 {
   < IDENTIFICADOR : ( < LETRA > )(< LETRA > | "_" | < DIGITO >)*  >
+  | <DOT : ".">
 }
 
 TOKEN :
@@ -102,22 +103,63 @@ TOKEN :
 
 
 
+//Usar o padrao factory pra gerar Formulas com operator
 
 AtomicFormula atomicFormula():
 {
 	AtomicFormula af;
-	String tableName;
-	String tupleName;
+	Token token1;
+	Token token2;
+	Token token3;
+	Token token4;
+	Token operator;
 }
-{
-	tableName = <IDENTIFICADOR> <LPAREN> tupleName = <IDENTIFICADOR> <RPAREN> {af = new AtomicFormulaIsA(tableName, tupleName);}
+{	
+	(
+		token1 = <IDENTIFICADOR> 
+		(	
+			<LPAREN> token2 = <IDENTIFICADOR> <RPAREN> 
+			{af = new AtomicFormulaIsA(tableName.image, tupleName.image);}
+			
+			| <DOT> token2 = <IDENTIFICADOR> 
+				(	
+					operator = <LESSTHAN> 
+					| operator = <GREATERTHAN> 
+					| operator = <EQUALS>
+					| operator = <LESSOREQUALTHAN>
+					| operator = <GREATEROREQUALTHAN>
+					| operator = <NOTEQUALS>
+				)
+
+			   	( 
+			   		token3 = <IDENTIFICADOR> <DOT> token4 = <IDENTIFICADOR>
+			   	 	| token3 = <INTEIRO_LITERAL>
+			   	 	| token3 = <STRING_LITERAL> 	
+			   	)
+		)	
+	)
+	
+	| (token1 = <INTEIRO_LITERAL> | token1 = <STRING_LITERAL>)
+		(	
+					operator = <LESSTHAN> 
+					| operator = <GREATERTHAN> 
+					| operator = <EQUALS>
+					| operator = <LESSOREQUALTHAN>
+					| operator = <GREATEROREQUALTHAN>
+					| operator = <NOTEQUALS>
+		)
+		token2 = <IDENTIFICADOR> <DOT> token3 = <IDENTIFICADOR>
+		
 	{return af;}
 }
+
+	
 
 
 Query query():
 {
 	Query q = new Query();
+	AtomicFormula af;
 }
 {
 	<LBRACE>

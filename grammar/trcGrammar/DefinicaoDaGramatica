@@ -1,0 +1,4 @@
+Query <- { ListOfTupleProjections | Formula }
+
+ListOfTupleProjections <- (TupleProjection)(,TupleProjection)*
+

@@ -9,21 +9,129 @@ public class TrcGrammar implements TrcGrammarConstants {
         Query p = parser.query();
   }
 
+//Usar o padrao factory pra gerar Formulas com operator
   static final public AtomicFormula atomicFormula() throws ParseException {
         AtomicFormula af;
-        String tableName;
-        String tupleName;
-    tableName = jj_consume_token(IDENTIFICADOR);
-    jj_consume_token(LPAREN);
-    tupleName = jj_consume_token(IDENTIFICADOR);
-    jj_consume_token(RPAREN);
-                                                                                   af = new AtomicFormulaIsA(tableName, tupleName);
+        Token token1;
+        Token token2;
+        Token token3;
+        Token token4;
+        Token operator;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IDENTIFICADOR:
+      token1 = jj_consume_token(IDENTIFICADOR);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LPAREN:
+        jj_consume_token(LPAREN);
+        token2 = jj_consume_token(IDENTIFICADOR);
+        jj_consume_token(RPAREN);
+                         af = new AtomicFormulaIsA(tableName.image, tupleName.image);
+        break;
+      case DOT:
+        jj_consume_token(DOT);
+        token2 = jj_consume_token(IDENTIFICADOR);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case LESSTHAN:
+          operator = jj_consume_token(LESSTHAN);
+          break;
+        case GREATERTHAN:
+          operator = jj_consume_token(GREATERTHAN);
+          break;
+        case EQUALS:
+          operator = jj_consume_token(EQUALS);
+          break;
+        case LESSOREQUALTHAN:
+          operator = jj_consume_token(LESSOREQUALTHAN);
+          break;
+        case GREATEROREQUALTHAN:
+          operator = jj_consume_token(GREATEROREQUALTHAN);
+          break;
+        case NOTEQUALS:
+          operator = jj_consume_token(NOTEQUALS);
+          break;
+        default:
+          jj_la1[0] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case IDENTIFICADOR:
+          token3 = jj_consume_token(IDENTIFICADOR);
+          jj_consume_token(DOT);
+          token4 = jj_consume_token(IDENTIFICADOR);
+          break;
+        case INTEIRO_LITERAL:
+          token3 = jj_consume_token(INTEIRO_LITERAL);
+          break;
+        case STRING_LITERAL:
+          token3 = jj_consume_token(STRING_LITERAL);
+          break;
+        default:
+          jj_la1[1] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      break;
+    case INTEIRO_LITERAL:
+    case STRING_LITERAL:
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case INTEIRO_LITERAL:
+        token1 = jj_consume_token(INTEIRO_LITERAL);
+        break;
+      case STRING_LITERAL:
+        token1 = jj_consume_token(STRING_LITERAL);
+        break;
+      default:
+        jj_la1[3] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LESSTHAN:
+        operator = jj_consume_token(LESSTHAN);
+        break;
+      case GREATERTHAN:
+        operator = jj_consume_token(GREATERTHAN);
+        break;
+      case EQUALS:
+        operator = jj_consume_token(EQUALS);
+        break;
+      case LESSOREQUALTHAN:
+        operator = jj_consume_token(LESSOREQUALTHAN);
+        break;
+      case GREATEROREQUALTHAN:
+        operator = jj_consume_token(GREATEROREQUALTHAN);
+        break;
+      case NOTEQUALS:
+        operator = jj_consume_token(NOTEQUALS);
+        break;
+      default:
+        jj_la1[4] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      token2 = jj_consume_token(IDENTIFICADOR);
+      jj_consume_token(DOT);
+      token3 = jj_consume_token(IDENTIFICADOR);
          {if (true) return af;}
+      break;
+    default:
+      jj_la1[5] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     throw new Error("Missing return statement in function");
   }
 
   static final public Query query() throws ParseException {
         Query q = new Query();
+        AtomicFormula af;
     jj_consume_token(LBRACE);
     jj_consume_token(IDENTIFICADOR);
     jj_consume_token(MEIODAQUERY);
@@ -43,13 +151,13 @@ public class TrcGrammar implements TrcGrammarConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[0];
+  static final private int[] jj_la1 = new int[6];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {};
+      jj_la1_0 = new int[] {0x1f80000,0x26000000,0x40008000,0x6000000,0x1f80000,0x26000000,};
    }
 
   /** Constructor with InputStream. */
@@ -70,7 +178,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 0; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -84,7 +192,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 0; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -101,7 +209,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 0; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -111,7 +219,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 0; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -127,7 +235,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 0; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -136,7 +244,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 0; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -187,12 +295,12 @@ public class TrcGrammar implements TrcGrammarConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[31];
+    boolean[] la1tokens = new boolean[32];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 0; i++) {
+    for (int i = 0; i < 6; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -201,7 +309,7 @@ public class TrcGrammar implements TrcGrammarConstants {
         }
       }
     }
-    for (int i = 0; i < 31; i++) {
+    for (int i = 0; i < 32; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

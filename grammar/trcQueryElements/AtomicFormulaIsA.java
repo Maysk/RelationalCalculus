@@ -1,4 +1,5 @@
-public class AtomicFormulaIsA{
+package trcQueryElements;
+public class AtomicFormulaIsA extends AtomicFormula{
 	String table;
 	String tuple;
 	public AtomicFormulaIsA(String table, String tuple){
