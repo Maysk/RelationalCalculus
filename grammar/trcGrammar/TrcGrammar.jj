@@ -1,5 +1,9 @@
 /*
 * Tuple Relational Query Specification
+* Para gerar:
+* cd trcGrammar
+* javacc TrcGrammar.jj
+* cd ..
 */
 
 options
