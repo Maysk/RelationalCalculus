@@ -13,6 +13,8 @@ options
 
 PARSER_BEGIN(TrcGrammar)
 package trcGrammar;
+import java.util.ArrayList;
+import java.util.List;
 import trcQueryElements.*;
 
 public class TrcGrammar
@@ -98,6 +100,7 @@ TOKEN : /*IDENTIFICADOR*/
 {
   < IDENTIFICADOR : ( < LETRA > )(< LETRA > | "_" | < DIGITO >)*  >
   | <DOT : ".">
+  | <COMMA : ",">
 }
 
 TOKEN :
@@ -109,65 +112,137 @@ TOKEN :
 
 //Usar o padrao factory pra gerar Formulas com operator
 
-AtomicFormula atomicFormula():
+Formula atomicFormula():
 {
-	AtomicFormula af;
+	Formula af;
 	Token token1;
 	Token token2;
 	Token token3;
 	Token token4;
-	Token operator;
+	Token op;
 }
 {	
 	(
-		token1 = <IDENTIFICADOR> 
-		(	
-			<LPAREN> token2 = <IDENTIFICADOR> <RPAREN> 
-			{af = new AtomicFormulaIsA(tableName.image, tupleName.image);}
-			
-			| <DOT> token2 = <IDENTIFICADOR> 
-				(	
-					operator = <LESSTHAN> 
-					| operator = <GREATERTHAN> 
-					| operator = <EQUALS>
-					| operator = <LESSOREQUALTHAN>
-					| operator = <GREATEROREQUALTHAN>
-					| operator = <NOTEQUALS>
-				)
-
-			   	( 
-			   		token3 = <IDENTIFICADOR> <DOT> token4 = <IDENTIFICADOR>
-			   	 	| token3 = <INTEIRO_LITERAL>
-			   	 	| token3 = <STRING_LITERAL> 	
-			   	)
-		)	
-	)
-	
-	| (token1 = <INTEIRO_LITERAL> | token1 = <STRING_LITERAL>)
-		(	
-					operator = <LESSTHAN> 
-					| operator = <GREATERTHAN> 
-					| operator = <EQUALS>
-					| operator = <LESSOREQUALTHAN>
-					| operator = <GREATEROREQUALTHAN>
-					| operator = <NOTEQUALS>
+		(
+			token1 = <IDENTIFICADOR> 
+			(	
+				<LPAREN> token2 = <IDENTIFICADOR> <RPAREN> 
+					{af = new AtomicFormulaIsA(token1.image, token2.image);}
+				
+				| <DOT> token2 = <IDENTIFICADOR> 
+						op = operator()
+				   	( 
+				   		token3 = <IDENTIFICADOR> <DOT> token4 = <IDENTIFICADOR> 
+				   			{ af = new AtomicFormulaAttOpAtt(new TupleProjection(token1.image, token2.image), new TupleProjection(token3.image, token4.image)); }
+				   	 	| (token3 = <INTEIRO_LITERAL> | token3 = <STRING_LITERAL>) 
+				   	 		{ af = new AtomicFormulaAttOpConst(new TupleProjection(token1.image, token2.image), new Constant(token3.image)); }
+				   	)
+			)	
 		)
-		token2 = <IDENTIFICADOR> <DOT> token3 = <IDENTIFICADOR>
 		
+		| (token1 = <INTEIRO_LITERAL> | token1 = <STRING_LITERAL>)
+			op = operator()
+			token2 = <IDENTIFICADOR> <DOT> token3 = <IDENTIFICADOR>
+			{ af = new AtomicFormulaAttOpConst(new TupleProjection(token2.image, token3.image), new Constant(token1.image)); }
+	)	
 	{return af;}
 }
 
+
+Token operator():
+{
+	Token op;
+}
+{
+	(
+		op = <LESSTHAN> 
+					| op = <GREATERTHAN> 
+					| op = <EQUALS>
+					| op = <LESSOREQUALTHAN>
+					| op = <GREATEROREQUALTHAN>
+					| op = <NOTEQUALS>
+	)
+	{return op;}
+}
 	
+List <TupleProjection> tupleProjectionList():
+{
+	List <TupleProjection> tpl = new ArrayList <TupleProjection>();
+	TupleProjection p;
+	Token token1;
+	Token token2;
+}
+{
+	[
+		token1 = <IDENTIFICADOR> <DOT> token2 = <IDENTIFICADOR>
+		{p = new TupleProjection(token1.image, token2.image); tpl.add(p);}
+		(p = tupleProjectionListRest() {tpl.add(p);})*
+	]
+	{return tpl;}
+} 
+
+TupleProjection tupleProjectionListRest():
+{	
+	TupleProjection p;
+	Token token1;
+	Token token2;
+}
+{
+	<COMMA> token1 = <IDENTIFICADOR> <DOT> token2 = <IDENTIFICADOR>
+	{p = new TupleProjection(token1.image, token2.image); return p;} 
+}
+
+
+Formula formula():
+{
+	Formula f;
+}
+{	
+	f = andOrFormula()
+}
+
+
+
+Formula andOrFormula():
+{
+	Formula f1;
+ 	Formula f2;
+}
+{	
+	f1 = terminalFormula()
+	(
+		LOOKAHEAD(2)
+		(	<AND> f2 = terminalFormula() {f1 = new And(f1, f2);}
+			| <OR> f2 = terminalFormula() {f1 = new Or(f1, f2);}
+		)
+	)*
+
+	{return f1;}
+}
+
+Formula terminalFormula():
+{
+	Formula f;
+}
+{
+	<NOT> f = formula() {f = new Not(f);}
+	
+	| f = atomicFormula()
+	{return f;} 
+}
+
+
 
 
 Query query():
 {
 	Query q = new Query();
-	AtomicFormula af;
+	Formula af;
+	List <TupleProjection> tpl;
 }
 {
 	<LBRACE>
-	 <IDENTIFICADOR> <MEIODAQUERY> af = atomicFormula()
+	 tpl = tupleProjectionList() <MEIODAQUERY> af = formula()
 	<RBRACE>
 	{return q;}
 }

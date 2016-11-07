@@ -61,7 +61,9 @@ public interface TrcGrammarConstants {
   /** RegularExpression Id. */
   int DOT = 30;
   /** RegularExpression Id. */
-  int MEIODAQUERY = 31;
+  int COMMA = 31;
+  /** RegularExpression Id. */
+  int MEIODAQUERY = 32;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -99,6 +101,7 @@ public interface TrcGrammarConstants {
     "\"FALSE\"",
     "<IDENTIFICADOR>",
     "\".\"",
+    "\",\"",
     "\"|\"",
   };
 
