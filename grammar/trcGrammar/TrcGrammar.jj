@@ -62,6 +62,7 @@ TOKEN :
   <OR : "OR">
   | <AND : "AND">
   | <NOT : "NOT">
+  | <ARROW : "->">
 }
 
 /*QUANTIFICADORES*/
@@ -195,11 +196,13 @@ TupleProjection tupleProjectionListRest():
 
 Formula formula():
 {
-	Formula f;
+	Formula f1;
+	Formula f2;
 }
 {	
-	f = andOrFormula()
-	{return f;}
+	f1 = andOrFormula()
+	(<ARROW> f2 = andOrFormula() {f1 = new Implication(f1, f2);})*
+	{return f1;}
 }
 
 
@@ -228,14 +231,14 @@ Formula terminalFormula():
 }
 {
 	(
-		<NOT> <LPAREN> f = andOrFormula() <RPAREN> {f = new Not(f);}
+		<NOT> <LPAREN> f = formula() <RPAREN> {f = new Not(f);}
 	
 		| f = atomicFormula()
 		| <LPAREN>
 			(
-				f = andOrFormula() <RPAREN>
-			 	| <FORALL> token = <IDENTIFICADOR> <LPAREN> f = andOrFormula() <RPAREN> {f = new ForAll(token.image, f);}
-				| <EXISTS> token = <IDENTIFICADOR> <LPAREN> f = andOrFormula() <RPAREN> {f = new Exists(token.image, f);}
+				f = formula() <RPAREN>
+			 	| <FORALL> token = <IDENTIFICADOR> <LPAREN> f = formula() <RPAREN> {f = new ForAll(token.image, f);}
+				| <EXISTS> token = <IDENTIFICADOR> <LPAREN> f = formula() <RPAREN> {f = new Exists(token.image, f);}
 			)
 	)
 

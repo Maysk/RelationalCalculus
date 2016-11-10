@@ -25,45 +25,47 @@ public interface TrcGrammarConstants {
   /** RegularExpression Id. */
   int NOT = 12;
   /** RegularExpression Id. */
-  int EXISTS = 13;
+  int ARROW = 13;
   /** RegularExpression Id. */
-  int FORALL = 14;
+  int EXISTS = 14;
   /** RegularExpression Id. */
-  int LPAREN = 15;
+  int FORALL = 15;
   /** RegularExpression Id. */
-  int RPAREN = 16;
+  int LPAREN = 16;
   /** RegularExpression Id. */
-  int LBRACE = 17;
+  int RPAREN = 17;
   /** RegularExpression Id. */
-  int RBRACE = 18;
+  int LBRACE = 18;
   /** RegularExpression Id. */
-  int LESSTHAN = 19;
+  int RBRACE = 19;
   /** RegularExpression Id. */
-  int LESSOREQUALTHAN = 20;
+  int LESSTHAN = 20;
   /** RegularExpression Id. */
-  int GREATERTHAN = 21;
+  int LESSOREQUALTHAN = 21;
   /** RegularExpression Id. */
-  int GREATEROREQUALTHAN = 22;
+  int GREATERTHAN = 22;
   /** RegularExpression Id. */
-  int EQUALS = 23;
+  int GREATEROREQUALTHAN = 23;
   /** RegularExpression Id. */
-  int NOTEQUALS = 24;
+  int EQUALS = 24;
   /** RegularExpression Id. */
-  int INTEIRO_LITERAL = 25;
+  int NOTEQUALS = 25;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 26;
+  int INTEIRO_LITERAL = 26;
   /** RegularExpression Id. */
-  int TRUEVALUE = 27;
+  int STRING_LITERAL = 27;
   /** RegularExpression Id. */
-  int FALSEVALUE = 28;
+  int TRUEVALUE = 28;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 29;
+  int FALSEVALUE = 29;
   /** RegularExpression Id. */
-  int DOT = 30;
+  int IDENTIFICADOR = 30;
   /** RegularExpression Id. */
-  int COMMA = 31;
+  int DOT = 31;
   /** RegularExpression Id. */
-  int MEIODAQUERY = 32;
+  int COMMA = 32;
+  /** RegularExpression Id. */
+  int MEIODAQUERY = 33;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -83,6 +85,7 @@ public interface TrcGrammarConstants {
     "\"OR\"",
     "\"AND\"",
     "\"NOT\"",
+    "\"->\"",
     "\"EXISTS\"",
     "\"FORALL\"",
     "\"(\"",
