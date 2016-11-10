@@ -199,6 +199,7 @@ Formula formula():
 }
 {	
 	f = andOrFormula()
+	{return f;}
 }
 
 
@@ -223,11 +224,21 @@ Formula andOrFormula():
 Formula terminalFormula():
 {
 	Formula f;
+	Token token;
 }
 {
-	<NOT> f = formula() {f = new Not(f);}
+	(
+		<NOT> <LPAREN> f = andOrFormula() <RPAREN> {f = new Not(f);}
 	
-	| f = atomicFormula()
+		| f = atomicFormula()
+		| <LPAREN>
+			(
+				f = andOrFormula() <RPAREN>
+			 	| <FORALL> token = <IDENTIFICADOR> <LPAREN> f = andOrFormula() <RPAREN> {f = new ForAll(token.image, f);}
+				| <EXISTS> token = <IDENTIFICADOR> <LPAREN> f = andOrFormula() <RPAREN> {f = new Exists(token.image, f);}
+			)
+	)
+
 	{return f;} 
 }
 

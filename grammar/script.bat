@@ -1,4 +1,4 @@
-
+	
 javac trcQueryElements/*.java trcGrammar/*.java
 cd trcQueryElements
 del *.class

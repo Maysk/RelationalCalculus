@@ -1,5 +1,5 @@
 package trcQueryElements;
-public class Or{
+public class Or extends Formula{
 	Formula f1;
 	Formula f2;
 	public Or(Formula f1, Formula f2){
