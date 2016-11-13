@@ -1,0 +1,18 @@
+package visitors;
+import trcQueryElements.*;
+
+public class VisitorToString{
+	public void visit(Query n){}
+	public void	visit(Implication n){}
+	public void	visit(And n){}
+	public void	visit(Or n){}
+	public void	visit(Not n){}
+	public void	visit(Exists n){}
+	public void	visit(ForAll n){}
+	public void	visit(AtomicFormulaAttOpAtt n){}
+	public void	visit(AtomicFormulaAttOpConst n){}
+	public void	visit(AtomicFormulaIsA n){}
+	public void visit(Table n){}
+	public void visit(TupleProjection n){}
+	
+}

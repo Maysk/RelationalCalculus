@@ -96,7 +96,7 @@ public interface TrcGrammarConstants {
     "\"<=\"",
     "\">\"",
     "\">=\"",
-    "\"==\"",
+    "\"=\"",
     "<NOTEQUALS>",
     "<INTEIRO_LITERAL>",
     "<STRING_LITERAL>",

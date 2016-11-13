@@ -256,18 +256,20 @@ public class TrcGrammar implements TrcGrammarConstants {
       case FORALL:
         jj_consume_token(FORALL);
         token = jj_consume_token(IDENTIFICADOR);
+        jj_consume_token(RPAREN);
         jj_consume_token(LPAREN);
         f = formula();
         jj_consume_token(RPAREN);
-                                                                                                    f = new ForAll(token.image, f);
+                                                                                                             f = new ForAll(token.image, f);
         break;
       case EXISTS:
         jj_consume_token(EXISTS);
         token = jj_consume_token(IDENTIFICADOR);
+        jj_consume_token(RPAREN);
         jj_consume_token(LPAREN);
         f = formula();
         jj_consume_token(RPAREN);
-                                                                                                    f = new Exists(token.image, f);
+                                                                                                             f = new Exists(token.image, f);
         break;
       default:
         jj_la1[10] = jj_gen;
@@ -285,7 +287,7 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   static final public Query query() throws ParseException {
-        Query q = new Query();
+        Query q;
         Formula af;
         List <TupleProjection> tpl;
     jj_consume_token(LBRACE);
@@ -293,7 +295,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     jj_consume_token(MEIODAQUERY);
     af = formula();
     jj_consume_token(RBRACE);
-         {if (true) return q;}
+                {if (true) return new Query(tpl, af);}
     throw new Error("Missing return statement in function");
   }
 

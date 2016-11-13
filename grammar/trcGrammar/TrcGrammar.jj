@@ -84,7 +84,7 @@ TOKEN :
   | <LESSOREQUALTHAN : "<=">
   | <GREATERTHAN : ">">
   | <GREATEROREQUALTHAN : ">=">
-  | <EQUALS : "==">
+  | <EQUALS : "=">
   | <NOTEQUALS : "<>" | "!="> 
 
 }
@@ -237,8 +237,8 @@ Formula terminalFormula():
 		| <LPAREN>
 			(
 				f = formula() <RPAREN>
-			 	| <FORALL> token = <IDENTIFICADOR> <LPAREN> f = formula() <RPAREN> {f = new ForAll(token.image, f);}
-				| <EXISTS> token = <IDENTIFICADOR> <LPAREN> f = formula() <RPAREN> {f = new Exists(token.image, f);}
+			 	| <FORALL> token = <IDENTIFICADOR> <RPAREN> <LPAREN> f = formula() <RPAREN> {f = new ForAll(token.image, f);}
+				| <EXISTS> token = <IDENTIFICADOR> <RPAREN> <LPAREN> f = formula() <RPAREN> {f = new Exists(token.image, f);}
 			)
 	)
 
@@ -250,13 +250,14 @@ Formula terminalFormula():
 
 Query query():
 {
-	Query q = new Query();
-	Formula af;
+	Query q;
+	Formula f;
 	List <TupleProjection> tpl;
 }
 {
 	<LBRACE>
-	 tpl = tupleProjectionList() <MEIODAQUERY> af = formula()
+	 tpl = tupleProjectionList() <MEIODAQUERY> f = formula()
 	<RBRACE>
-	{return q;}
+	{	
+		return new Query(tpl, f);}
 }

@@ -1,0 +1,1 @@
+{t.fname, t.minit, t.lname | emp(e) OR (FORALL x)(p.pname = 'p' AND p.pname = j.pnome) } 

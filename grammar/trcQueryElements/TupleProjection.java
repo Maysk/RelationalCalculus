@@ -1,9 +1,16 @@
 package trcQueryElements;
+import visitors.*;
+
 public class TupleProjection{
-	String tupleName;
-	String attribute;
+	public String tupleName;
+	public String attribute;
 	public TupleProjection(String tupleName, String attribute){
 		this.tupleName = tupleName;
 		this.attribute = attribute;
 	}
+
+	public void accept(Visitor v){
+		v.visit(this);
+	}
+	
 }

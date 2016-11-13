@@ -1,6 +1,20 @@
 package trcQueryElements;
+import java.util.List;
+import visitors.*;
+
 public class Query{
-	public Query(){
-		
+	public Formula f;
+	public List <TupleProjection> tpl;
+
+	public Query(List <TupleProjection> tpl, Formula f){
+		this.tpl = tpl;
+		this.f = f;
 	}
+
+	public void accept(Visitor v){
+		v.visit(this);
+	}
+	
+	
+
 }
