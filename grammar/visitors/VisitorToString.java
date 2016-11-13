@@ -21,6 +21,7 @@ public class VisitorToString implements Visitor{
 		n.f1.accept(this);
 		this.stringResult += " -> ";
 		n.f2.accept(this);
+
 	}
 	public void	visit(And n){
 		n.f1.accept(this);
