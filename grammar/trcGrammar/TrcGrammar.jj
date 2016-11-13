@@ -134,9 +134,9 @@ Formula atomicFormula():
 						op = operator()
 				   	( 
 				   		token3 = <IDENTIFICADOR> <DOT> token4 = <IDENTIFICADOR> 
-				   			{ af = new AtomicFormulaAttOpAtt(new TupleProjection(token1.image, token2.image), new TupleProjection(token3.image, token4.image)); }
+				   			{ af = new AtomicFormulaAttOpAtt(op.image, new TupleProjection(token1.image, token2.image), new TupleProjection(token3.image, token4.image)); }
 				   	 	| (token3 = <INTEIRO_LITERAL> | token3 = <STRING_LITERAL>) 
-				   	 		{ af = new AtomicFormulaAttOpConst(new TupleProjection(token1.image, token2.image), new Constant(token3.image)); }
+				   	 		{ af = new AtomicFormulaAttOpConst(op.image, new TupleProjection(token1.image, token2.image), new Constant(token3.image)); }
 				   	)
 			)	
 		)
@@ -144,7 +144,7 @@ Formula atomicFormula():
 		| (token1 = <INTEIRO_LITERAL> | token1 = <STRING_LITERAL>)
 			op = operator()
 			token2 = <IDENTIFICADOR> <DOT> token3 = <IDENTIFICADOR>
-			{ af = new AtomicFormulaAttOpConst(new TupleProjection(token2.image, token3.image), new Constant(token1.image)); }
+			{ af = new AtomicFormulaAttOpConst(op.image, new TupleProjection(token2.image, token3.image), new Constant(token1.image)); }
 	)	
 	{return af;}
 }

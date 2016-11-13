@@ -3,8 +3,10 @@ import visitors.*;
 
 public class AtomicFormulaAttOpConst extends Formula{
 	public TupleProjection t;
+	public String op;
 	public Constant c;
-	public AtomicFormulaAttOpConst(TupleProjection t, Constant c){
+	public AtomicFormulaAttOpConst(String op, TupleProjection t, Constant c){
+		this.op = op;
 		this.t = t;
 		this.c = c;
 	}

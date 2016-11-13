@@ -38,7 +38,7 @@ public class TrcGrammar implements TrcGrammarConstants {
           token3 = jj_consume_token(IDENTIFICADOR);
           jj_consume_token(DOT);
           token4 = jj_consume_token(IDENTIFICADOR);
-                                                          af = new AtomicFormulaAttOpAtt(new TupleProjection(token1.image, token2.image), new TupleProjection(token3.image, token4.image));
+                                                          af = new AtomicFormulaAttOpAtt(op.image, new TupleProjection(token1.image, token2.image), new TupleProjection(token3.image, token4.image));
           break;
         case INTEIRO_LITERAL:
         case STRING_LITERAL:
@@ -54,7 +54,7 @@ public class TrcGrammar implements TrcGrammarConstants {
             jj_consume_token(-1);
             throw new ParseException();
           }
-                                                          af = new AtomicFormulaAttOpConst(new TupleProjection(token1.image, token2.image), new Constant(token3.image));
+                                                          af = new AtomicFormulaAttOpConst(op.image, new TupleProjection(token1.image, token2.image), new Constant(token3.image));
           break;
         default:
           jj_la1[1] = jj_gen;
@@ -86,7 +86,7 @@ public class TrcGrammar implements TrcGrammarConstants {
       token2 = jj_consume_token(IDENTIFICADOR);
       jj_consume_token(DOT);
       token3 = jj_consume_token(IDENTIFICADOR);
-                          af = new AtomicFormulaAttOpConst(new TupleProjection(token2.image, token3.image), new Constant(token1.image));
+                          af = new AtomicFormulaAttOpConst(op.image, new TupleProjection(token2.image, token3.image), new Constant(token1.image));
       break;
     default:
       jj_la1[4] = jj_gen;
@@ -288,14 +288,14 @@ public class TrcGrammar implements TrcGrammarConstants {
 
   static final public Query query() throws ParseException {
         Query q;
-        Formula af;
+        Formula f;
         List <TupleProjection> tpl;
     jj_consume_token(LBRACE);
     tpl = tupleProjectionList();
     jj_consume_token(MEIODAQUERY);
-    af = formula();
+    f = formula();
     jj_consume_token(RBRACE);
-                {if (true) return new Query(tpl, af);}
+                {if (true) return new Query(tpl, f);}
     throw new Error("Missing return statement in function");
   }
 

@@ -12,7 +12,6 @@ public interface Visitor{
 	public void	visit(AtomicFormulaAttOpAtt n);
 	public void	visit(AtomicFormulaAttOpConst n);
 	public void	visit(AtomicFormulaIsA n);
-	public void visit(Table n);
-	public void visit(TupleProjection n);;
-	
+	public void visit(TupleProjection n);
+	public void visit(Constant n);
 }

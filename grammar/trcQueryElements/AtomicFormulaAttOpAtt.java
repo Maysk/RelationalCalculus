@@ -3,8 +3,10 @@ import visitors.*;
 
 public class AtomicFormulaAttOpAtt extends Formula{
 	public TupleProjection t1;
+	public String op;
 	public TupleProjection t2;
-	public AtomicFormulaAttOpAtt(TupleProjection t1, TupleProjection t2){
+	public AtomicFormulaAttOpAtt(String op, TupleProjection t1, TupleProjection t2){
+		this.op = op;
 		this.t1 = t1;
 		this.t2 = t2;
 	}
