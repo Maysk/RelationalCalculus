@@ -1,1 +1,1 @@
-{t.fname, t.minit, t.lname | emp(e) OR (FORALL x)(p.pname = 'p' AND p.pname = j.pnome) } 
+{s.sname | Species(s) AND (FORALL t)((Tree(t) AND t.sname = s.sname) -> t.planted < 1985) AND (EXISTS t)(Tree(t) AND t.planted < 1985)}

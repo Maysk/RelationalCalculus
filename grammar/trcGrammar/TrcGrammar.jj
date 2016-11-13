@@ -236,7 +236,7 @@ Formula terminalFormula():
 		| f = atomicFormula()
 		| <LPAREN>
 			(
-				f = formula() <RPAREN>
+				f = formula() {f = new InnerFormula(f);}<RPAREN>
 			 	| <FORALL> token = <IDENTIFICADOR> <RPAREN> <LPAREN> f = formula() <RPAREN> {f = new ForAll(token.image, f);}
 				| <EXISTS> token = <IDENTIFICADOR> <RPAREN> <LPAREN> f = formula() <RPAREN> {f = new Exists(token.image, f);}
 			)

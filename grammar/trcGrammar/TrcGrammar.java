@@ -251,6 +251,7 @@ public class TrcGrammar implements TrcGrammarConstants {
       case STRING_LITERAL:
       case IDENTIFICADOR:
         f = formula();
+                                               f = new InnerFormula(f);
         jj_consume_token(RPAREN);
         break;
       case FORALL:

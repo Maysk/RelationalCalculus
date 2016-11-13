@@ -9,6 +9,7 @@ public interface Visitor{
 	public void	visit(Not n);
 	public void	visit(Exists n);
 	public void	visit(ForAll n);
+	public void visit(InnerFormula n);
 	public void	visit(AtomicFormulaAttOpAtt n);
 	public void	visit(AtomicFormulaAttOpConst n);
 	public void	visit(AtomicFormulaIsA n);

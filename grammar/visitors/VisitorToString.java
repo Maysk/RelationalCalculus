@@ -50,6 +50,14 @@ public class VisitorToString implements Visitor{
 		n.f.accept(this);
 		this.stringResult += ")";	
 	}
+
+	public void	visit(InnerFormula n){
+		this.stringResult += "( ";
+		n.f.accept(this);
+		this.stringResult += " )";	
+	}
+
+
 	public void	visit(AtomicFormulaAttOpAtt n){
 		n.t1.accept(this);
 		this.stringResult += " " + n.op + " ";

@@ -3,10 +3,8 @@ import trcQueryElements.*;
 
 public class VisitorSQLNF implements VisitorFormula{
 	public Formula visit(Implication n){
-		n.f1 = new Not(n.f1);
-		n.f1 = n.f1.accept(this);
-		n.f1 = n.f2.accept(this);
-		return new Or(n.f1, n.f2);
+		Formula f = new Or(new Not(n.f1), n.f2);
+		return f.accept(this);
 		
 	}
 
@@ -33,26 +31,37 @@ public class VisitorSQLNF implements VisitorFormula{
 			f = new Or(new Not(f1), new Not(f2));
 			return f.accept(this);
 		}
+
 		else if(n.f instanceof Or){
 			f1 = ((Or) n.f).f1;
 			f2 = ((Or) n.f).f2;
 			f = new And(new Not(f1), new Not(f2));
 			return f.accept(this);
 		}
+
 		else if(n.f instanceof Implication){
 			f1 = ((Implication) n.f).f1;
 			f2 = ((Implication) n.f).f2;
-			f = new Or(f1, new Not(f2));
+			f = new And(f1, new Not(f2));
 			return f.accept(this);	
 		}
+
 		else if(n.f instanceof Not){
 			return ((Not) n.f).f.accept(this);
 		}
+		//TODO: REVER ESSA REGRA
 		else if(n.f instanceof ForAll){
-			f = new Exists(((ForAll) n.f).tuple, ((ForAll) n.f).f);
+			f = new Exists(((ForAll) n.f).tuple, new Not(((ForAll) n.f).f));
 			return f.accept(this);
 		}
+
+		else if(n.f instanceof InnerFormula){
+			((InnerFormula) n.f).f = new Not(((InnerFormula) n.f).f);;
+			return ((InnerFormula) n.f).accept(this);
+		}
+
 		else{
+			n.f = n.f.accept(this);
 			return n;
 		}
 	}
@@ -64,9 +73,14 @@ public class VisitorSQLNF implements VisitorFormula{
 	}
 
 	public Formula visit(ForAll n){
-		n.f = new Not(n.f);
+		Formula f;
+		f = new Not(new Exists(n.tuple, new Not(n.f)));
+		return f.accept(this);
+	}
+
+	public Formula visit(InnerFormula n){
 		n.f = n.f.accept(this);
-		return new Not(new Exists(n.tuple, n.f));
+		return n;
 	}
 
 	public Formula visit(AtomicFormulaAttOpAtt n){
