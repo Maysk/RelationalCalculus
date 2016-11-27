@@ -2,6 +2,7 @@ package visitors;
 import trcQueryElements.*;
 
 public interface VisitorFormula{
+	public void visit(Query n);
 	public Formula visit(Implication n);
 	public Formula visit(And n);
 	public Formula visit(Or n);

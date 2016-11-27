@@ -7,6 +7,11 @@ public class Constant{
 		this.c = c;
 	}
 
+	
+	public String accept(VisitorString v){
+		return v.visit(this);
+	}
+
 	public void accept(Visitor v){
 		v.visit(this);
 	}

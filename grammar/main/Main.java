@@ -17,5 +17,9 @@ public class Main{
 		p.accept(v);
 		System.out.println("\n" + v.stringResult + "\n"); 
 
+		String s = p.accept(new VisitorToSQL());
+		System.out.println("\n" + s + "\n"); 
+
+
 	}
 }

@@ -13,6 +13,11 @@ public class And extends Formula{
 	public void accept(Visitor v){
 		v.visit(this);
 	}
+
+
+	public String accept(VisitorString v){
+		return v.visit(this);
+	}
 	
 	public Formula accept(VisitorFormula v){
 		return v.visit(this);

@@ -12,5 +12,10 @@ public class TupleProjection{
 	public void accept(Visitor v){
 		v.visit(this);
 	}
+
+	public String accept(VisitorString v){
+		return v.visit(this);
+	}
+
 	
 }

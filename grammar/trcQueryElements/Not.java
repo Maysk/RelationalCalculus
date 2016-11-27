@@ -11,6 +11,10 @@ public class Not extends Formula{
 		v.visit(this);
 	}
 	
+	public String accept(VisitorString v){
+		return v.visit(this);
+	}
+
 	public Formula accept(VisitorFormula v){
 		return v.visit(this);
 	}

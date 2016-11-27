@@ -14,6 +14,15 @@ public class Query{
 	public void accept(Visitor v){
 		v.visit(this);
 	}
+
+	public String accept(VisitorString v){
+		return v.visit(this);
+	}
+
+
+	public void accept(VisitorFormula v){
+		v.visit(this);
+	}
 	
 	
 

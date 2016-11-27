@@ -2,6 +2,10 @@ package visitors;
 import trcQueryElements.*;
 
 public class VisitorSQLNF implements VisitorFormula{
+	public void visit(Query n){
+		n.f = n.f.accept(this);
+	}
+
 	public Formula visit(Implication n){
 		Formula f = new Or(new Not(n.f1), n.f2);
 		return f.accept(this);
