@@ -63,7 +63,40 @@ public class VisitorSQLNF implements VisitorFormula{
 			((InnerFormula) n.f).f = new Not(((InnerFormula) n.f).f);;
 			return ((InnerFormula) n.f).accept(this);
 		}
+		else if (n.f instanceof AtomicFormulaAttOpAtt){
+			AtomicFormulaAttOpAtt temp = ((AtomicFormulaAttOpAtt) n.f);
+			String newOp = "";
+			
+			if(temp.op.equals("=")){ newOp = "!="; }
+			else if (temp.op.equals("!=") || temp.op.equals("<>")){ newOp = "="; }
+			else if (temp.op.equals("<")){ newOp = ">="; }
+			else if (temp.op.equals("<=")){ newOp = ">"; }
+			else if (temp.op.equals(">")){ newOp = "<="; }
+			else if (temp.op.equals(">=")){ newOp = "<"; }
+			else{
+				 throw new IllegalArgumentException("Something wrong with some operator");
+			}
+			
+			temp.op = newOp;
+			return temp;
+		}
+		else if (n.f instanceof AtomicFormulaAttOpConst){
+			AtomicFormulaAttOpConst temp = ((AtomicFormulaAttOpConst) n.f);
+			String newOp = "";
 
+			if(temp.op.equals("=")){ newOp = "!="; }
+			else if (temp.op.equals("!=") || temp.op.equals("<>")){ newOp = "="; }
+			else if (temp.op.equals("<")){ newOp = ">="; }
+			else if (temp.op.equals("<=")){ newOp = ">"; }
+			else if (temp.op.equals(">")){ newOp = "<="; }
+			else if (temp.op.equals(">=")){ newOp = "<"; }
+			else{
+				 throw new IllegalArgumentException("Something wrong with some operator");
+			}
+			
+			temp.op = newOp;
+			return temp;
+		}
 		else{
 			n.f = n.f.accept(this);
 			return n;

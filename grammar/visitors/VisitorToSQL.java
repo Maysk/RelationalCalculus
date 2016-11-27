@@ -12,7 +12,7 @@ public class VisitorToSQL implements VisitorString{
 		String cond = n.f.accept(this);
 		
 		String s = "SELECT ";
-		int i = 0; 
+		int i = 1; 
 		for(TupleProjection tuple : n.tpl){
 			s += tuple.accept(this);
 			if(i != n.tpl.size()){
@@ -23,7 +23,7 @@ public class VisitorToSQL implements VisitorString{
 
 		s += " FROM ";
 
-		i = 0;
+		i = 1;
 		for(String table : this.currentTableList){
 			s += table;
 			if(i != this.currentTableList.size()){
@@ -79,7 +79,7 @@ public class VisitorToSQL implements VisitorString{
 
 	public String visit(Not n){
 		String s = n.f.accept(this);
-		return  " NOT ( " + s + " ) ";
+		return  " NOT " + s + " ";
 	}
 
 	public String visit(Exists n){
@@ -90,7 +90,7 @@ public class VisitorToSQL implements VisitorString{
 		
 		String s = " EXISTS ( " + "SELECT * FROM ";
 
-		int i = 0;
+		int i = 1;
 		for(String t : this.currentTableList){
 			s += t;
 			if(i != this.currentTableList.size()){
