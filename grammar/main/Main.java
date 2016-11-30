@@ -13,9 +13,11 @@ public class Main{
 		p.accept(v);		
  		System.out.println("\n" + v.stringResult + "\n"); 
 		
-		p.f.accept(new VisitorSQLNF());
+		p.accept(new VisitorSQLNF());
 		p.accept(v);
 		System.out.println("\n" + v.stringResult + "\n"); 
+
+		p.accept(new VisitorScope());
 
 		String s = p.accept(new VisitorToSQL());
 		System.out.println("\n" + s + "\n"); 
