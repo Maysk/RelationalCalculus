@@ -1,10 +1,21 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html layout:decorator="base/base">
 <head>
-<title>Getting Started: Serving Web Content</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Getting Started: Serving Web Content</title>
 </head>
-<body>
-	<p th:text="Olá" />
-</body>
+<section layout:fragment="conteudo">
+	<h1>TRC To SQL Tool</h1>
+	<hr/>
+	<form ng-submit="submitFormula()">
+    	<div class = "form-group">
+    		<label for="trcformula" class="form-control-label">TRC Formula</label>
+    		<input type="text" class="form-control" id="trcformula" ng-model="trcformula"></input>
+    	</div>
+    	<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+	
+	
+	
+</section>
 </html>
