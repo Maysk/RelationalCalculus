@@ -4,16 +4,30 @@ import java.sql.*;
 
 public class SQLiteJDBC
 {
-  public static void main( String args[] )
+	Connection c;
+	
+	
+  public static void main( String args[] ) throws ClassNotFoundException, SQLException
   {
-    Connection c = null;
-    try {
-      Class.forName("org.sqlite.JDBC");
-      c = DriverManager.getConnection("jdbc:sqlite:test.db");
-    } catch ( Exception e ) {
-      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-      System.exit(0);
-    }
-    System.out.println("Opened database successfully");
+    SQLiteJDBC t = new SQLiteJDBC("teste.db");
+    t.createTables();
+    t.c.close();
+  }
+  
+  public SQLiteJDBC(String databaseName) throws SQLException, ClassNotFoundException{
+		Class.forName("org.sqlite.JDBC");
+		c = DriverManager.getConnection("jdbc:sqlite:"+databaseName);
+  }
+  
+  public void createTables() throws SQLException{
+	  Statement stmt = this.c.createStatement();
+	  String sql = "CREATE TABLE COMPANY " +
+              "(ID INT PRIMARY KEY     NOT NULL," +
+              " NAME           TEXT    NOT NULL, " + 
+              " AGE            INT     NOT NULL, " + 
+              " ADDRESS        CHAR(50), " + 
+              " SALARY         REAL)"; 
+	  stmt.executeUpdate(sql);
+	  stmt.close();
   }
 }
