@@ -13,6 +13,18 @@ var app = angular.module('myApp',[])
 		});	
 	}
 	
+	$scope.testListDatabaseTables = function(){
+		var res = $http.post('db/listTables/'+"teste", {});
+		console.log("Clicou");
+		res.success(function(data, status, headers, config) {
+			console.log(data);		
+		});
+		
+		res.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+		});	
+	}
+	
 	$scope.submitFormula = function(){
 		var dataObj = {
 				requestBody : $scope.trcformula
