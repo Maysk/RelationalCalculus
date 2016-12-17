@@ -1,49 +1,65 @@
 var app = angular.module('myApp',[])
 .controller('TrcToSql', ['$scope','$http', function($scope, $http){
+	//$scope.databasesAvailable = ["a", "b"];
+	$scope.names = ["Emil", "Tobias", "Linus"];
 	
+	$scope.init = function() {
+		var httpResponse = $http.post('db/availables', {});
+		
+		httpResponse.success(function(data, status, headers, config) {
+			$scope.databasesAvailable = data.responseBody;
+		});
+		
+		httpResponse.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+			$scope.databasesAvailable = null;
+		});
+				
+	}
+	
+	$scope.loadDbSchema = function(){
+		var httpResponse = $http.post('db/listTables/'+ $scope.dbAvalilable, {});
+		
+		httpResponse.success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.dbSchema = data.responseBody;
+		});
+		
+		httpResponse.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+			$scope.dbSchema = null;
+		});
+	}
+	
+		
 	$scope.testDatabaseConnection = function(){
-		var res = $http.post('db/'+"teste", {});
-		console.log("Clicou");
-		res.success(function(data, status, headers, config) {
-			console.log(data);		
+		var httpResponse = $http.post('db/'+"teste", {});
+		httpResponse.success(function(data, status, headers, config) {
+			console.log(data);
 		});
 		
-		res.error(function(data, status, headers, config) {
+		httpResponse.error(function(data, status, headers, config) {
 			alert( "failure message: " + JSON.stringify({data: data}));
-		});	
+		});
 	}
 	
-	$scope.testListDatabaseTables = function(){
-		var res = $http.post('db/listTables/'+"teste", {});
-		console.log("Clicou");
-		res.success(function(data, status, headers, config) {
-			console.log(data);		
-		});
-		
-		res.error(function(data, status, headers, config) {
-			alert( "failure message: " + JSON.stringify({data: data}));
-		});	
-	}
 	
 	$scope.submitFormula = function(){
 		var dataObj = {
 				requestBody : $scope.trcformula
 		}
-		console.log("aqui")
-		console.log(dataObj)
 		
-		var res = $http.post('trc/converttosqlnf', dataObj);
-		res.success(function(data, status, headers, config) {
+		var httpResponse = $http.post('trc/converttosqlnf', dataObj);
+		httpResponse.success(function(data, status, headers, config) {
 			console.log(data);
-					
 		});
 		
-		res.error(function(data, status, headers, config) {
+		httpResponse.error(function(data, status, headers, config) {
 			alert( "failure message: " + JSON.stringify({data: data}));
-		});	
-		
+		});
 	}
 	
-
+	
+	$scope.init();
 	
 }]);
