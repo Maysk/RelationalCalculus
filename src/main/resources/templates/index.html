@@ -9,21 +9,28 @@
 		<div class="col-md-4">
 			<p class="lead"> Selelect the database:</p>
 			<select class = "form-control" ng-model="dbAvalilable" ng-options="x for x in databasesAvailable" ng-change="loadDbSchema()"></select>
-			<ul ng-repeat = "(table, attributes) in dbSchema">
+			<ul style="padding-left: 5px; margin-top: 10px" ng-repeat = "(table, attributes) in dbSchema">
 			{{table}}
-			<li ng-repeat="attribute in attributes">{{attribute}}</li>	
+			<li ng-repeat="attribute in attributes" style="margin-left: 40px">{{attribute}}</li>	
 			</ul>
 		</div>
 		<div class="col-md-8">
-			<button class="btn btn-success">New IsA Formula</button>
-			<form ng-submit="submitFormula()">
-		    	<div class = "form-group">
-		    		<label for="trcformula" class="form-control-label">TRC Formula</label>
-		    		<input type="text" class="form-control" id="trcformula" ng-model="trcformula"></input>
-		    	</div>
-		    	<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
+			<div class = "toolbar" style="display: inline-block">
+				<!-- Quantifiers -->
+				<div class="operator" id="forAll" style="display: inline-block">∀</div>
+				<div class="operator" id="exists" style="display: inline-block">∃</div>
+				
+			</div>
+			<div>
+				<form ng-submit="submitFormula()">
+			    	<div class = "form-group">	
+			    		<input type="text" class="form-control input-lg" id="trcformula" ng-model="trcformula"></input>
+			    	</div>
+			    	<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
 		</div>
+		
 	</div>
 	<script>
 		
