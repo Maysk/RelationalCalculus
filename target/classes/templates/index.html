@@ -10,18 +10,20 @@
 			<p class="lead"> Selelect the database:</p>
 			<select class = "form-control" ng-model="dbAvalilable" ng-options="x for x in databasesAvailable" ng-change="loadDbSchema()"></select>
 			<ul style="padding-left: 5px; margin-top: 10px" ng-repeat = "(table, attributes) in dbSchema">
-			{{table}}
-			<li ng-repeat="attribute in attributes" style="margin-left: 40px">{{attribute}}</li>	
+			<button type="button" class="btn btn-link">{{table}}</button>
+			<li ng-repeat="attribute in attributes" style="margin-left: 40px">
+				<button type="button" class="btn btn-link" ng-click="addTextToFormulaBox(attribute)"> {{attribute}}</button>
+			</li>	
 			</ul>
 		</div>
 		<div class="col-md-8">
 			<div class="btn-group-justified">
-				<a type="button" class="btn btn-primary">∀</a>
-				<a type="button" class="btn btn-primary">∃</a>
-				 <a type="button" class="btn btn-primary">∧</a>
-				 <a type="button" class="btn btn-primary">∨</a>
-				 <a type="button" class="btn btn-primary">→</a>
-				 <a type="button" class="btn btn-primary">¬</a>
+				<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∀')">∀</a>
+				<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∃')">∃</a>
+				<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∧')">∧</a>
+				<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∨')">∨</a>
+				<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('→')">→</a>
+				<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('¬')">¬</a>
 			</div>
 			
 			<div>
@@ -29,10 +31,16 @@
 			    	<div class = "form-group">	
 			    		<input type="text" class="form-control input-lg" id="trcformula" ng-model="trcformula"></input>
 			    	</div>
-			    	<button type="submit" class="btn btn-primary">Submit</button>
+			    	<button type="submit" class="btn btn-primary">Transform</button>
 				</form>
+				<div class="lead"></div>
+				SQLNF Formula:	
+				<input type="text" class="form-control input-lg" id="sqlnfformula" readonly="readonly"></input>
+				SQL Expression 
+				<input type="text" class="form-control input-lg" id="sqlexpression" readonly="readonly"></input>
 			</div>
 		</div>
+		
 		
 	</div>
 	<script>
