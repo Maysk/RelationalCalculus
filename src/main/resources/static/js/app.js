@@ -45,6 +45,16 @@ var app = angular.module('myApp',[])
 	
 	
 	$scope.submitFormula = function(){
+		var temp = $scope.trcformula.replace(/∀/g,"FORALL")
+									.replace(/∃/g, "EXISTS")
+									.replace(/∧/g, "AND")
+									.replace(/∨/g, "OR")
+									.replace(/→/g, "->")
+									.replace(/¬/g, "NOT");
+		
+		$scope.outputformula = "{" + $scope.projection + " | " + temp + "}";
+		
+		
 		var dataObj = {
 				requestBody : $scope.trcformula
 		}
