@@ -28,6 +28,7 @@ public class DatabaseController {
     public ObjResponse<ArrayList <String>> availablesDatabases() throws SQLException, ClassNotFoundException {
 			ArrayList <String> availablesDbs = new ArrayList<String>();
 			availablesDbs.add("Teste");
+			availablesDbs.add("UIBK - R, S, T");
 			return new ObjResponse<ArrayList <String>>("OK", availablesDbs);
 	}
 	
