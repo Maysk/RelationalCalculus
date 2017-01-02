@@ -37,20 +37,30 @@
 							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('→')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">→</a>
 							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('¬')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">¬</a>
 						</div>
+						
+						<div class="btn-group-justified">
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('=')" style="border-radius: 0em">=</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('≠')" style="border-radius: 0em">≠</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('≥')" style="border-radius: 0em">≥</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('≤')" style="border-radius: 0em">≤</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('&gt;')" style="border-radius: 0em">&gt;</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('&lt;')" style="border-radius: 0em">&lt;</a>
+						</div>
+						
 			    		<input type="text" class="form-control input-lg" id="trcformula" ng-model="trcformula" style="border-top-left-radius: 0em; border-top-right-radius: 0em;"></input>
 			    					    	
 			    	</div>
 			    	<button type="submit" class="btn btn-primary">Transform</button>
 				</form>
+				<br/>
 				
-				<div class="lead"></div>
-				OUTPUT Formula:	
+				<div class="lead">OUTPUT Formula:</div>
 				<input type="text" class="form-control input-lg" id="outputformula" ng-model="outputformula" readonly="readonly"></input>
 				
-				<div class="lead"></div>
-				SQLNF Formula:	
+				<div class="lead">SQLNF Formula:</div>	
 				<input type="text" class="form-control input-lg" id="sqlnfformula" ng-model="sqlnfformula" readonly="readonly"></input>
-				SQL Expression 
+				
+				<div class="lead">SQL Expression:</div>
 				<input type="text" class="form-control input-lg" id="sqlexpression" ng-model="sqlexpression" readonly="readonly"></input>
 			</div>
 		</div>

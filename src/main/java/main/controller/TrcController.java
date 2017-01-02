@@ -2,6 +2,7 @@ package main.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import main.model.ObjRequest;
 import main.model.ObjResponse;
@@ -24,7 +25,7 @@ import trcToSql.visitors.VisitorToString;
 @RestController
 public class TrcController {
 	@RequestMapping(value = "/trc/converttosqlnf", method = RequestMethod.POST)
-    public ObjResponse<String> greeting(@RequestBody ObjRequest objModel) throws ParseException {
+    public ObjResponse<ArrayList<String>> greeting(@RequestBody ObjRequest objModel) throws ParseException {
 		TrcGrammar parser = new TrcGrammar(new ByteArrayInputStream(objModel.getRequestBody().getBytes()));
 		Query p = parser.query(); 
 		VisitorToString v = new VisitorToString();
@@ -32,14 +33,22 @@ public class TrcController {
 		
 		p.accept(new VisitorSQLNF());	
 		p.accept(v);
+		
 		String stringSqlnf = v.stringResult;
 		
 		String stringSQL = p.accept(vSql);
+		if(vSql.error){
+			System.out.println(vSql.errorMsg);
+		}
 		
 		System.out.println(v.stringResult);        
 		System.out.println(stringSQL);
 		
-		return new ObjResponse<String>("OK", v.stringResult);
+		ArrayList<String> test = new ArrayList<String>();
+		test.add(stringSqlnf);
+		test.add(stringSQL);
+		
+		return new ObjResponse<ArrayList<String>>("OK", test);
     }
 	
 	@ExceptionHandler(ParseException.class)

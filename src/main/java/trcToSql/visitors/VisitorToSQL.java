@@ -6,7 +6,14 @@ import java.util.ArrayList;
 
 public class VisitorToSQL implements VisitorString{
 	List<String> currentTableList;
-
+	public boolean error = false;
+	public String errorMsg = "";
+	
+	
+	
+	int inNot = 0;
+	int inOr = 0;
+	
 	public String visit(Query n){
 		this.currentTableList = new ArrayList<String>();
 		
@@ -59,10 +66,12 @@ public class VisitorToSQL implements VisitorString{
 	}
 
 	public String visit(Or n){
+		inOr++;
 		String s1 = n.f1.accept(this);
 		String s2 = n.f2.accept(this);
 		String s;
-
+		inOr--;
+		
 		if(s1 == null && s2 == null){
 			s = null; 
 		}
@@ -79,15 +88,28 @@ public class VisitorToSQL implements VisitorString{
 	}
 
 	public String visit(Not n){
+		inNot++;
 		String s = n.f.accept(this);
+		inNot--;
 		return  " NOT " + s + " ";
 	}
 
 	public String visit(Exists n){
 		List<String> previousTableList = this.currentTableList;
 		this.currentTableList = new ArrayList<String>();
+		int tInNot = inNot;
+		int tInOr = inOr;
+		
+		inNot = 0;
+		inOr = 0;
+		
 		
 		String cond = n.f.accept(this);
+		
+		inNot = tInNot  ;
+		inOr = tInOr;
+		
+		
 		
 		String s = " EXISTS ( " + "SELECT * FROM ";
 
@@ -109,25 +131,42 @@ public class VisitorToSQL implements VisitorString{
 		this.currentTableList = previousTableList;
 		return s;
 	}
+	
 	public String visit(InnerFormula n){
 		String s = n.f.accept(this);
 		return  " ( " + s + " ) ";	
 	}
+	
 	public String visit(AtomicFormulaAttOpAtt n){
 		String s = n.t1.tupleName + "." + n.t1.attribute + " " + n.op + " " + n.t2.tupleName + "." + n.t2.attribute;
 		return  " " + s + " ";
 	}
+	
 	public String visit(AtomicFormulaAttOpConst n){
 		String s = n.t.tupleName + "." + n.t.attribute + " " + n.op + " " + n.c.accept(this);
 		return  " " + s + " ";
 	}
+	
 	public String visit(AtomicFormulaIsA n){
-		this.currentTableList.add(n.table + " " + n.tuple);
+		if(inNot > 0){
+			error = true;
+			errorMsg = "Unsafe Query";
+		}
+		else if(inOr > 0){
+			error= true;
+			errorMsg = "Essa query não é permitido, apesar de ser possivelmente safe.";
+		}
+		else{
+			this.currentTableList.add(n.table + " " + n.tuple);
+		}
+		
 		return null;
 	}
+	
 	public String visit(TupleProjection n){
 		return n.tupleName + "." + n.attribute;
 	}
+	
 	public String visit(Constant n){
 		return n.c;
 	}

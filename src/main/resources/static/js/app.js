@@ -50,7 +50,11 @@ var app = angular.module('myApp',[])
 									.replace(/∧/g, "AND")
 									.replace(/∨/g, "OR")
 									.replace(/→/g, "->")
-									.replace(/¬/g, "NOT");
+									.replace(/¬/g, "NOT")
+									.replace(/≠/g, "!=")
+									.replace(/≥/g, ">=")
+									.replace(/≤/g, "<=");
+										
 		
 		$scope.outputformula = "{" + $scope.projection + " | " + temp + "}";
 		
@@ -62,6 +66,7 @@ var app = angular.module('myApp',[])
 		var httpResponse = $http.post('trc/converttosqlnf', dataObj);
 		httpResponse.success(function(data, status, headers, config) {
 			console.log(data);
+			
 		});
 		
 		httpResponse.error(function(data, status, headers, config) {
