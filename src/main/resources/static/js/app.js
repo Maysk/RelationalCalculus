@@ -56,7 +56,7 @@ var app = angular.module('myApp',[])
 		
 		
 		var dataObj = {
-				requestBody : $scope.trcformula
+				requestBody : $scope.outputformula
 		}
 		
 		var httpResponse = $http.post('trc/converttosqlnf', dataObj);

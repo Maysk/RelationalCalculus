@@ -18,6 +18,7 @@ import trcToSql.trcGrammar.ParseException;
 import trcToSql.trcGrammar.TrcGrammar;
 import trcToSql.trcQueryElements.Query;
 import trcToSql.visitors.VisitorSQLNF;
+import trcToSql.visitors.VisitorToSQL;
 import trcToSql.visitors.VisitorToString;
 
 @RestController
@@ -27,9 +28,17 @@ public class TrcController {
 		TrcGrammar parser = new TrcGrammar(new ByteArrayInputStream(objModel.getRequestBody().getBytes()));
 		Query p = parser.query(); 
 		VisitorToString v = new VisitorToString();
-		p.accept(new VisitorSQLNF());
+		VisitorToSQL vSql = new VisitorToSQL();
+		
+		p.accept(new VisitorSQLNF());	
 		p.accept(v);
+		String stringSqlnf = v.stringResult;
+		
+		String stringSQL = p.accept(vSql);
+		
 		System.out.println(v.stringResult);        
+		System.out.println(stringSQL);
+		
 		return new ObjResponse<String>("OK", v.stringResult);
     }
 	

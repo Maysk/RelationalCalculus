@@ -8,7 +8,7 @@
 
 options
 {
-  static = true;
+  static = false;
 }
 
 PARSER_BEGIN(TrcGrammar)

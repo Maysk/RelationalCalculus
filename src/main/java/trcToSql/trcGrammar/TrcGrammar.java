@@ -2,7 +2,6 @@
 package trcToSql.trcGrammar;
 import java.util.ArrayList;
 import java.util.List;
-
 import trcToSql.trcQueryElements.*;
 
 public class TrcGrammar implements TrcGrammarConstants {
@@ -13,7 +12,7 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
 //Usar o padrao factory pra gerar Formulas com operator
-  static final public Formula atomicFormula() throws ParseException {
+  final public Formula atomicFormula() throws ParseException {
         Formula af;
         Token token1;
         Token token2;
@@ -98,7 +97,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public Token operator() throws ParseException {
+  final public Token operator() throws ParseException {
         Token op;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LESSTHAN:
@@ -128,7 +127,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public List <TupleProjection> tupleProjectionList() throws ParseException {
+  final public List <TupleProjection> tupleProjectionList() throws ParseException {
         List <TupleProjection> tpl = new ArrayList <TupleProjection>();
         TupleProjection p;
         Token token1;
@@ -161,7 +160,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public TupleProjection tupleProjectionListRest() throws ParseException {
+  final public TupleProjection tupleProjectionListRest() throws ParseException {
         TupleProjection p;
         Token token1;
         Token token2;
@@ -173,7 +172,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public Formula formula() throws ParseException {
+  final public Formula formula() throws ParseException {
         Formula f1;
         Formula f2;
     f1 = andOrFormula();
@@ -195,7 +194,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public Formula andOrFormula() throws ParseException {
+  final public Formula andOrFormula() throws ParseException {
         Formula f1;
         Formula f2;
     f1 = terminalFormula();
@@ -227,7 +226,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public Formula terminalFormula() throws ParseException {
+  final public Formula terminalFormula() throws ParseException {
         Formula f;
         Token token;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -288,7 +287,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public Query query() throws ParseException {
+  final public Query query() throws ParseException {
         Query q;
         Formula f;
         List <TupleProjection> tpl;
@@ -301,19 +300,19 @@ public class TrcGrammar implements TrcGrammarConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static private boolean jj_2_1(int xla) {
+  private boolean jj_2_1(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_1(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_3R_7() {
+  private boolean jj_3R_7() {
     if (jj_scan_token(NOT)) return true;
     return false;
   }
 
-  static private boolean jj_3R_10() {
+  private boolean jj_3R_10() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_11()) {
@@ -323,19 +322,19 @@ public class TrcGrammar implements TrcGrammarConstants {
     return false;
   }
 
-  static private boolean jj_3R_5() {
+  private boolean jj_3R_5() {
     if (jj_scan_token(OR)) return true;
     if (jj_3R_6()) return true;
     return false;
   }
 
-  static private boolean jj_3R_4() {
+  private boolean jj_3R_4() {
     if (jj_scan_token(AND)) return true;
     if (jj_3R_6()) return true;
     return false;
   }
 
-  static private boolean jj_3R_6() {
+  private boolean jj_3R_6() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_7()) {
@@ -348,12 +347,12 @@ public class TrcGrammar implements TrcGrammarConstants {
     return false;
   }
 
-  static private boolean jj_3R_11() {
+  private boolean jj_3R_11() {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
-  static private boolean jj_3_1() {
+  private boolean jj_3_1() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_4()) {
@@ -363,12 +362,12 @@ public class TrcGrammar implements TrcGrammarConstants {
     return false;
   }
 
-  static private boolean jj_3R_9() {
+  private boolean jj_3R_9() {
     if (jj_scan_token(LPAREN)) return true;
     return false;
   }
 
-  static private boolean jj_3R_12() {
+  private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(26)) {
@@ -378,24 +377,23 @@ public class TrcGrammar implements TrcGrammarConstants {
     return false;
   }
 
-  static private boolean jj_3R_8() {
+  private boolean jj_3R_8() {
     if (jj_3R_10()) return true;
     return false;
   }
 
-  static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
-  static public TrcGrammarTokenManager token_source;
-  static SimpleCharStream jj_input_stream;
+  public TrcGrammarTokenManager token_source;
+  SimpleCharStream jj_input_stream;
   /** Current token. */
-  static public Token token;
+  public Token token;
   /** Next token. */
-  static public Token jj_nt;
-  static private int jj_ntk;
-  static private Token jj_scanpos, jj_lastpos;
-  static private int jj_la;
-  static private int jj_gen;
-  static final private int[] jj_la1 = new int[12];
+  public Token jj_nt;
+  private int jj_ntk;
+  private Token jj_scanpos, jj_lastpos;
+  private int jj_la;
+  private int jj_gen;
+  final private int[] jj_la1 = new int[12];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -408,9 +406,9 @@ public class TrcGrammar implements TrcGrammarConstants {
    private static void jj_la1_init_1() {
       jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x0,};
    }
-  static final private JJCalls[] jj_2_rtns = new JJCalls[1];
-  static private boolean jj_rescan = false;
-  static private int jj_gc = 0;
+  final private JJCalls[] jj_2_rtns = new JJCalls[1];
+  private boolean jj_rescan = false;
+  private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public TrcGrammar(java.io.InputStream stream) {
@@ -418,13 +416,6 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
   /** Constructor with InputStream and supplied encoding */
   public TrcGrammar(java.io.InputStream stream, String encoding) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source = new TrcGrammarTokenManager(jj_input_stream);
     token = new Token();
@@ -435,11 +426,11 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream) {
+  public void ReInit(java.io.InputStream stream) {
      ReInit(stream, null);
   }
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream, String encoding) {
+  public void ReInit(java.io.InputStream stream, String encoding) {
     try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
     token = new Token();
@@ -451,13 +442,6 @@ public class TrcGrammar implements TrcGrammarConstants {
 
   /** Constructor. */
   public TrcGrammar(java.io.Reader stream) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     jj_input_stream = new SimpleCharStream(stream, 1, 1);
     token_source = new TrcGrammarTokenManager(jj_input_stream);
     token = new Token();
@@ -468,7 +452,7 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.Reader stream) {
+  public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
@@ -480,13 +464,6 @@ public class TrcGrammar implements TrcGrammarConstants {
 
   /** Constructor with generated Token Manager. */
   public TrcGrammar(TrcGrammarTokenManager tm) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
@@ -505,7 +482,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  static private Token jj_consume_token(int kind) throws ParseException {
+  private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
@@ -530,8 +507,8 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   static private final class LookaheadSuccess extends java.lang.Error { }
-  static final private LookaheadSuccess jj_ls = new LookaheadSuccess();
-  static private boolean jj_scan_token(int kind) {
+  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+  private boolean jj_scan_token(int kind) {
     if (jj_scanpos == jj_lastpos) {
       jj_la--;
       if (jj_scanpos.next == null) {
@@ -554,7 +531,7 @@ public class TrcGrammar implements TrcGrammarConstants {
 
 
 /** Get the next Token. */
-  static final public Token getNextToken() {
+  final public Token getNextToken() {
     if (token.next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
@@ -563,7 +540,7 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
 /** Get the specific Token. */
-  static final public Token getToken(int index) {
+  final public Token getToken(int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -572,20 +549,20 @@ public class TrcGrammar implements TrcGrammarConstants {
     return t;
   }
 
-  static private int jj_ntk() {
+  private int jj_ntk() {
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
-  static private int[] jj_expentry;
-  static private int jj_kind = -1;
-  static private int[] jj_lasttokens = new int[100];
-  static private int jj_endpos;
+  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
+  private int[] jj_lasttokens = new int[100];
+  private int jj_endpos;
 
-  static private void jj_add_error_token(int kind, int pos) {
+  private void jj_add_error_token(int kind, int pos) {
     if (pos >= 100) return;
     if (pos == jj_endpos + 1) {
       jj_lasttokens[jj_endpos++] = kind;
@@ -611,7 +588,7 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   /** Generate ParseException. */
-  static public ParseException generateParseException() {
+  public ParseException generateParseException() {
     jj_expentries.clear();
     boolean[] la1tokens = new boolean[34];
     if (jj_kind >= 0) {
@@ -648,14 +625,14 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   /** Enable tracing. */
-  static final public void enable_tracing() {
+  final public void enable_tracing() {
   }
 
   /** Disable tracing. */
-  static final public void disable_tracing() {
+  final public void disable_tracing() {
   }
 
-  static private void jj_rescan_token() {
+  private void jj_rescan_token() {
     jj_rescan = true;
     for (int i = 0; i < 1; i++) {
     try {
@@ -674,7 +651,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     jj_rescan = false;
   }
 
-  static private void jj_save(int index, int xla) {
+  private void jj_save(int index, int xla) {
     JJCalls p = jj_2_rtns[index];
     while (p.gen > jj_gen) {
       if (p.next == null) { p = p.next = new JJCalls(); break; }
