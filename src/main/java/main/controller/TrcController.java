@@ -9,12 +9,14 @@ import main.model.ObjResponse;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import database.DbManager;
 import trcToSql.trcGrammar.ParseException;
 import trcToSql.trcGrammar.TrcGrammar;
 import trcToSql.trcQueryElements.Query;
@@ -24,12 +26,17 @@ import trcToSql.visitors.VisitorToString;
 
 @RestController
 public class TrcController {
-	@RequestMapping(value = "/trc/converttosqlnf", method = RequestMethod.POST)
-    public ObjResponse<ArrayList<String>> greeting(@RequestBody ObjRequest objModel) throws ParseException {
+	
+	DbManager dbManager = DbManager.getInstance();
+	
+	@RequestMapping(value = "/trc/converttosqlnf/{dbname}", method = RequestMethod.POST)
+    public ObjResponse<ArrayList<String>> greeting(@RequestBody ObjRequest objModel, @PathVariable("dbname") String dbName) throws ParseException {
 		TrcGrammar parser = new TrcGrammar(new ByteArrayInputStream(objModel.getRequestBody().getBytes()));
 		Query p = parser.query(); 
 		VisitorToString v = new VisitorToString();
 		VisitorToSQL vSql = new VisitorToSQL();
+		
+		System.out.println(dbName);
 		
 		p.accept(new VisitorSQLNF());	
 		p.accept(v);
