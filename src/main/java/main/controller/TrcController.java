@@ -2,7 +2,10 @@ package main.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import main.model.ObjRequest;
 import main.model.ObjResponse;
@@ -30,11 +33,15 @@ public class TrcController {
 	DbManager dbManager = DbManager.getInstance();
 	
 	@RequestMapping(value = "/trc/converttosqlnf/{dbname}", method = RequestMethod.POST)
-    public ObjResponse<ArrayList<String>> greeting(@RequestBody ObjRequest objModel, @PathVariable("dbname") String dbName) throws ParseException {
+    public ObjResponse<ArrayList<String>> greeting(@RequestBody ObjRequest objModel, @PathVariable("dbname") String dbName) throws ParseException, ClassNotFoundException, SQLException {
 		TrcGrammar parser = new TrcGrammar(new ByteArrayInputStream(objModel.getRequestBody().getBytes()));
 		Query p = parser.query(); 
+		
+		HashMap<String, HashSet<String>> dbSchema = dbManager.getDbSchema(dbName);
 		VisitorToString v = new VisitorToString();
-		VisitorToSQL vSql = new VisitorToSQL();
+		VisitorToSQL vSql = new VisitorToSQL(dbSchema);
+		
+		
 		
 		System.out.println(dbName);
 		
@@ -44,6 +51,7 @@ public class TrcController {
 		String stringSqlnf = v.stringResult;
 		
 		String stringSQL = p.accept(vSql);
+		
 		if(vSql.error){
 			System.out.println(vSql.errorMsg);
 		}

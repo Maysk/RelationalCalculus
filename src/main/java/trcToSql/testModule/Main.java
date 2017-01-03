@@ -19,8 +19,8 @@ public class Main{
 
 		p.accept(new VisitorScope());
 
-		String s = p.accept(new VisitorToSQL());
-		System.out.println("\n" + s + "\n"); 
+		//String s = p.accept(new VisitorToSQL());
+		//System.out.println("\n" + s + "\n"); 
 
 
 	}

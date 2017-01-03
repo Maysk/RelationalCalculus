@@ -8,15 +8,16 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class DbManager {
 	private static DbManager uniqueInstance;
 	private ArrayList <String> availablesDbs;
-	HashMap<String, HashMap<String, ArrayList<String>>> dbsSchemas;
+	HashMap<String, HashMap<String, HashSet<String>>> dbsSchemas;
 	
 	private DbManager(){
 		availablesDbs = new ArrayList<>();
-		dbsSchemas = new HashMap<String, HashMap<String, ArrayList<String>>>();
+		dbsSchemas = new HashMap<String, HashMap<String, HashSet<String>>>();
 	}
 
 	public static DbManager getInstance() {
@@ -38,22 +39,22 @@ public class DbManager {
 	}
 	
 	
-	public HashMap<String, ArrayList<String>> getDbSchema(String dbName) throws SQLException, ClassNotFoundException {
-		HashMap<String, ArrayList<String>> result = dbsSchemas.get(dbName);
+	public HashMap<String, HashSet<String>> getDbSchema(String dbName) throws SQLException, ClassNotFoundException {
+		HashMap<String, HashSet<String>> result = dbsSchemas.get(dbName);
 		if (result == null){
 			Connection c;
-			HashMap<String, ArrayList<String>> tablesAndColunms;
+			HashMap<String, HashSet<String>> tablesAndColunms;
 		
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:databases\\"+dbName + ".db");
-			tablesAndColunms = new HashMap<String, ArrayList<String>>();
+			tablesAndColunms = new HashMap<String, HashSet<String>>();
 			
 			PreparedStatement p = c.prepareStatement("SELECT distinct (name) FROM sqlite_master WHERE type = 'table'");
 			ResultSet rsTables = p.executeQuery();
 			
 			while(rsTables.next()){
 				String tableName = rsTables.getString(1);
-				ArrayList <String> colunms = new ArrayList<String>();
+				HashSet <String> colunms = new HashSet<String>();
 				
 				p = c.prepareStatement("SELECT * FROM "+ tableName + " LIMIT 1");
 				

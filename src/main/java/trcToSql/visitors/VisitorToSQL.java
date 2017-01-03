@@ -1,18 +1,25 @@
 package trcToSql.visitors;
 import trcToSql.trcQueryElements.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
 public class VisitorToSQL implements VisitorString{
 	List<String> currentTableList;
+	
+	HashMap<String, HashSet<String>> dbSchema;
 	public boolean error = false;
 	public String errorMsg = "";
-	
-	
-	
 	int inNot = 0;
 	int inOr = 0;
+	
+	
+	public VisitorToSQL(HashMap<String, HashSet<String>> dbSchema){
+		this.dbSchema = dbSchema;
+	}
+	
 	
 	public String visit(Query n){
 		this.currentTableList = new ArrayList<String>();

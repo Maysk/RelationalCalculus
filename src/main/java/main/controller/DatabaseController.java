@@ -9,8 +9,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import main.model.ObjResponse;
+
 
 
 
@@ -45,9 +47,9 @@ public class DatabaseController {
 	}
 	
 	@RequestMapping(value = "/db/listTables/{dbname}", method = RequestMethod.POST)
-	public ObjResponse<HashMap<String, ArrayList<String>>> listTables(@PathVariable("dbname") String dbName) throws ClassNotFoundException, SQLException{
+	public ObjResponse<HashMap<String, HashSet<String>>> listTables(@PathVariable("dbname") String dbName) throws ClassNotFoundException, SQLException{
 			
-		return new ObjResponse<HashMap<String, ArrayList<String>>>("OK", dbManager.getDbSchema(dbName));
+		return new ObjResponse<HashMap<String, HashSet<String>>>("OK", dbManager.getDbSchema(dbName));
 	} 
 
 	
