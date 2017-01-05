@@ -1,4 +1,5 @@
 package trcToSql.testModule;
+import database.DbManager;
 import trcToSql.trcGrammar.*;
 import trcToSql.trcQueryElements.*;
 import trcToSql.visitors.*;
@@ -18,9 +19,10 @@ public class Main{
 		System.out.println("\n" + v.stringResult + "\n"); 
 
 		p.accept(new VisitorScope());
-
-		//String s = p.accept(new VisitorToSQL());
-		//System.out.println("\n" + s + "\n"); 
+		DbManager dbManager = DbManager.getInstance();
+		
+		String s = p.accept(new VisitorToSQL(dbManager.getDbSchema("Teste")));
+		System.out.println("\n" + s + "\n"); 
 
 
 	}

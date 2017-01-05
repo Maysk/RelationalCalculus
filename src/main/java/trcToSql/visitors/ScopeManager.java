@@ -17,9 +17,15 @@ public class ScopeManager {
 	String freeVariableType;
 	int relationScopeCounter;
 	ScopeManager parentScope;
+	boolean initFlag;
 	
 	
-	public ScopeManager(ScopeManager parentScope, HashMap<String, HashSet<String>> dbSchema){
+	public ScopeManager(HashMap<String, HashSet<String>> dbSchema){
+		this.dbSchema = dbSchema;
+		this.initFlag = true;
+	}
+	
+	private ScopeManager(ScopeManager parentScope, HashMap<String, HashSet<String>> dbSchema){
 		this.tupleTypes = new HashMap<String, String>(); 
 		this.waitingDeclaration = new HashMap<String, ArrayList<String>>();
 		this.innerScopes = new ArrayList<ScopeManager>();
@@ -28,13 +34,20 @@ public class ScopeManager {
 		this.freeVariableName = null;
 		this.freeVariableType = null;
 		this.relationScopeCounter = 0;
-		this.dbSchema = dbSchema;
-		
-	}
+		this.initFlag = false;
+	}	
 	
 	public ScopeManager beginScope(){
-		ScopeManager sm = new ScopeManager(this, this.dbSchema);
-		this.addInnerScope(sm);
+		ScopeManager sm;
+		
+		if(this.initFlag){
+			sm = new ScopeManager(null, this.dbSchema);
+		}
+		else{
+			sm = new ScopeManager(this, this.dbSchema);
+			this.addInnerScope(sm);
+		}
+		
 		return sm;
 	}
 	
@@ -143,11 +156,15 @@ public class ScopeManager {
 	public void checkTupleAtribute(String tuple, String atribute){
 		String temp = lookupSymbol(tuple);
 		if(temp!=null){
-			if(!dbSchema.get(temp).contains(atribute)){}
+			if(!dbSchema.get(temp).contains(atribute)){
+				
+			}
 		}else{
+			
 			if(waitingDeclaration.get(tuple)==null){
 				waitingDeclaration.put(tuple, new ArrayList<String>());
 			}
+			
 			waitingDeclaration.get(tuple).add(atribute);
 		}
 	}

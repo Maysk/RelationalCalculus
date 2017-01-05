@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class VisitorToSQL implements VisitorString{
 	List<String> currentTableList;
-	
+	ScopeManager sm;
 	HashMap<String, HashSet<String>> dbSchema;
 	public boolean error = false;
 	public String errorMsg = "";
@@ -23,8 +23,13 @@ public class VisitorToSQL implements VisitorString{
 	
 	public String visit(Query n){
 		this.currentTableList = new ArrayList<String>();
+		this.sm = new ScopeManager(dbSchema); 
+		
+		this.sm = this.sm.beginScope();
 		
 		String cond = n.f.accept(this);
+		
+		
 		
 		String s = "SELECT ";
 		int i = 1; 
@@ -50,9 +55,15 @@ public class VisitorToSQL implements VisitorString{
 		if(cond != null){
 			s += " WHERE " + cond;			
 		}
+		
+
+		this.sm = this.sm.endScope();
+		
 		return s;		
 	}
+	
 	public String visit(And n){
+		
 		String s1 = n.f1.accept(this);
 		String s2 = n.f2.accept(this);
 		String s;
@@ -111,7 +122,10 @@ public class VisitorToSQL implements VisitorString{
 		inOr = 0;
 		
 		
+		this.sm = this.sm.beginScope();
+		this.sm.freeVariableName = n.tuple;
 		String cond = n.f.accept(this);
+		this.sm = this.sm.endScope();
 		
 		inNot = tInNot  ;
 		inOr = tInOr;
@@ -145,11 +159,15 @@ public class VisitorToSQL implements VisitorString{
 	}
 	
 	public String visit(AtomicFormulaAttOpAtt n){
+		this.sm.checkTupleAtribute(n.t1.tupleName, n.t1.attribute);
+		this.sm.checkTupleAtribute(n.t2.tupleName, n.t2.attribute);
+		
 		String s = n.t1.tupleName + "." + n.t1.attribute + " " + n.op + " " + n.t2.tupleName + "." + n.t2.attribute;
 		return  " " + s + " ";
 	}
 	
 	public String visit(AtomicFormulaAttOpConst n){
+		this.sm.checkTupleAtribute(n.t.tupleName, n.t.attribute);
 		String s = n.t.tupleName + "." + n.t.attribute + " " + n.op + " " + n.c.accept(this);
 		return  " " + s + " ";
 	}
@@ -160,10 +178,11 @@ public class VisitorToSQL implements VisitorString{
 			errorMsg = "Unsafe Query";
 		}
 		else if(inOr > 0){
-			error= true;
+			error = true;
 			errorMsg = "Essa query não é permitido, apesar de ser possivelmente safe.";
 		}
 		else{
+			this.sm.bindTupleToRelation(n.tuple, n.table);
 			this.currentTableList.add(n.table + " " + n.tuple);
 		}
 		
@@ -171,6 +190,7 @@ public class VisitorToSQL implements VisitorString{
 	}
 	
 	public String visit(TupleProjection n){
+		this.sm.checkTupleAtribute(n.tupleName, n.attribute);
 		return n.tupleName + "." + n.attribute;
 	}
 	
