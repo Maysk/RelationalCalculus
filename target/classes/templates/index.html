@@ -10,7 +10,7 @@
 			<p class="lead"> Selelect the database:</p>
 			<select class = "form-control" ng-model="dbAvalilable" ng-options="x for x in databasesAvailable" ng-change="loadDbSchema()"></select>
 			<ul style="padding-left: 5px; margin-top: 10px" ng-repeat = "(table, attributes) in dbSchema">
-			<button type="button" class="btn btn-link" ng-click="addTextToFormulaBox(table)">{{table}}</button>
+			<button type="button" class="btn btn-link" ng-click="addTextToFormulaBox(table)" style="font-weight: bold">{{table}}</button>
 			<li ng-repeat="attribute in attributes" style="margin-left: 40px; margin-top: 0px">
 				<button type="button" class="btn btn-link" ng-click="addTextToFormulaBox(attribute)" style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"> {{attribute}}</button>
 			</li>	

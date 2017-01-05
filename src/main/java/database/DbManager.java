@@ -32,6 +32,8 @@ public class DbManager {
 	private void initializeAvailableDbs() {
 		availablesDbs.add("Teste");
 		availablesDbs.add("UIBK - R, S, T");
+		availablesDbs.add("Kemper Datenbanksysteme");
+		availablesDbs.add("Database Systems The Complete Book - Exercise 2 4 1");
 	}
 	
 	public ArrayList<String> getAvailablesDbs(){
@@ -61,6 +63,7 @@ public class DbManager {
 				ResultSetMetaData rsColunms = p.executeQuery().getMetaData();
 				for(int i =1; i<=rsColunms.getColumnCount(); i++){
 					colunms.add(rsColunms.getColumnLabel(i));
+					//rsColunms.getColumnTypeName(i);
 				}
 				tablesAndColunms.put(tableName, colunms);
 			}

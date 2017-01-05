@@ -108,6 +108,7 @@ public class ScopeManager {
 		}
 		else{
 			this.tupleTypes.put(tuple, relation);
+			this.relationScopeCounter++;
 			return true;
 		}
 		
