@@ -70,10 +70,15 @@ public class ScopeManager {
 				
 			}
 			
+			//TODO: Atender a waitingList do escopo
+			
 			
 			//Nomes de tuplas utilizados no escopo atual
 			ps.namesUsedOnInnerScopes.addAll(this.tupleTypes.keySet());
 			
+			for(String k:this.waitingDeclaration.keySet()){
+				
+			}
 			
 		}
 		else{
@@ -92,28 +97,42 @@ public class ScopeManager {
 		this.innerScopes.add(inner);
 	}
 	
-	public void bindTupleToRelation(String tuple, String relation){
+	public boolean bindTupleToRelation(String tuple, String relation){
 		if(this.lookupSymbol(tuple) != null){
 			//TODO: Tupla já está atrelada a outra relação
+			return false;
 		}
 		else if(this.namesUsedOnInnerScopes.contains(tuple)){
 			//TODO: Tupla já foi atrelada em um escopo mais interno
+			return false;
 		}
 		else{
 			this.tupleTypes.put(tuple, relation);
+			return true;
 		}
+		
 		
 	}
 	
 	
-	
-	public void addRequestSymbolToWaitingList(){}
+	//Verifica se a tuple já foi atrelada a algumar relação
+	public void checkTupleAtribute(String tuple, String atribute){
+		String temp = lookupSymbol(tuple);
+		if(temp!=null){
+			if(!dbSchema.get(temp).contains(atribute)){}
+		}else{
+			if(waitingDeclaration.get(tuple)==null){
+				waitingDeclaration.put(tuple, new ArrayList<String>());
+			}
+			waitingDeclaration.get(tuple).add(atribute);
+		}
+	}
 	
 	//Verifica se o simbolo já foi atrelado a alguma relação em um escopo acima;
 	public String lookupSymbol(String s){
 		String temp = tupleTypes.get(s);
 		
-		if(temp == null && this.parentScope == null){
+		if(temp == null && this.parentScope != null){
 			temp = this.parentScope.lookupSymbol(s);
 		}
 		
