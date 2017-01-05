@@ -54,7 +54,7 @@ public class ScopeManager {
 							//TODO: Relação não existe
 						}
 						else{
-							
+							waitingDeclaration.remove(freeVariableName);
 							for(String i:temp){
 								if(!atributosDaRelacao.contains(i)){
 									//TODO: Elemento pedido não existe na relação
@@ -71,13 +71,36 @@ public class ScopeManager {
 			}
 			
 			//TODO: Atender a waitingList do escopo
-			
+			if(!waitingDeclaration.isEmpty()){
+				for(String waitingTuple: waitingDeclaration.keySet()){
+					String t = this.tupleTypes.get(waitingTuple);
+					if(t == null){
+						//TODO A variavel não foi atrelada a nenhum escopo. Mantem ela na wating list
+					}
+					else{
+						waitingDeclaration.remove(t);
+						ArrayList<String> attributesWaiting = this.waitingDeclaration.get(waitingTuple);
+						for(String i: attributesWaiting){
+							if(!dbSchema.get(t).contains(i)){
+								//TODO O esquema não contem o atributo desejado.
+								
+							}
+						}
+					}
+				}
+				
+			}
 			
 			//Nomes de tuplas utilizados no escopo atual
 			ps.namesUsedOnInnerScopes.addAll(this.tupleTypes.keySet());
 			
 			for(String k:this.waitingDeclaration.keySet()){
-				
+				if(ps.waitingDeclaration.containsKey(k)){
+					ps.waitingDeclaration.get(k).addAll(this.waitingDeclaration.get(k));
+				}
+				else{
+					ps.waitingDeclaration.put(k, this.waitingDeclaration.get(k));
+				}
 			}
 			
 		}
