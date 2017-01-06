@@ -33,37 +33,41 @@ public class TrcController {
 	DbManager dbManager = DbManager.getInstance();
 	
 	@RequestMapping(value = "/trc/converttosqlnf/{dbname}", method = RequestMethod.POST)
-    public ObjResponse<ArrayList<String>> greeting(@RequestBody ObjRequest objModel, @PathVariable("dbname") String dbName) throws ParseException, ClassNotFoundException, SQLException {
+    public ObjResponse<HashMap<String, Object>> greeting(@RequestBody ObjRequest objModel, @PathVariable("dbname") String dbName) throws ParseException, ClassNotFoundException, SQLException {
 		TrcGrammar parser = new TrcGrammar(new ByteArrayInputStream(objModel.getRequestBody().getBytes()));
 		Query p = parser.query(); 
 		
 		HashMap<String, HashSet<String>> dbSchema = dbManager.getDbSchema(dbName);
 		VisitorToString v = new VisitorToString();
 		VisitorToSQL vSql = new VisitorToSQL(dbSchema);
+		HashMap<String, Object> responseBody = new HashMap<String, Object>();
 		
 		
+
 		
-		System.out.println(dbName);
 		
-		p.accept(new VisitorSQLNF());	
+		p.accept(new VisitorSQLNF());
 		p.accept(v);
 		
 		String stringSqlnf = v.stringResult;
 		
 		String stringSQL = p.accept(vSql);
 		
-		if(vSql.error){
-			System.out.println(vSql.errorMsg);
+		responseBody.put("SQLNFFormula", stringSqlnf);
+		
+		if(vSql.getErrorLog().hasFormulaError() || vSql.getErrorLog().hasScopeError()){
+			responseBody.put("FormulaError", vSql.getErrorLog().getFormulaErrors());
+			responseBody.put("ScopeError", vSql.getErrorLog().getScopeErrors());
+			responseBody.put("SQLQuery","");
 		}
 		
-		System.out.println(v.stringResult);        
-		System.out.println(stringSQL);
+		else{
+			responseBody.put("FormulaError","");
+			responseBody.put("ScopeError", "");
+			responseBody.put("SQLQuery", stringSQL);
+		}
 		
-		ArrayList<String> test = new ArrayList<String>();
-		test.add(stringSqlnf);
-		test.add(stringSQL);
-		
-		return new ObjResponse<ArrayList<String>>("OK", test);
+		return new ObjResponse<HashMap<String, Object>>("OK", responseBody);
     }
 	
 	@ExceptionHandler(ParseException.class)

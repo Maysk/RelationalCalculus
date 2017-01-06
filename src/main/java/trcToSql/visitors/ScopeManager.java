@@ -3,48 +3,57 @@ package trcToSql.visitors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
-import trcToSql.visitors.utils.Pair;
+import trcToSql.visitors.utils.ErrorLog;
+
+
 
 
 public class ScopeManager {
+	ErrorLog errorLog;
 	HashMap<String, HashSet<String>> dbSchema;
 	HashMap<String, String> tupleTypes; // Nome da tupla, relação
 	HashMap<String , ArrayList<String>> waitingDeclaration; //Nome da tupla, Atributos
 	HashSet<String> namesUsedOnInnerScopes; //Nomes de variaveis utilizados em escopos mais internos
 	ArrayList<ScopeManager> innerScopes;
 	String freeVariableName;
-	String freeVariableType;
 	int relationScopeCounter;
 	ScopeManager parentScope;
+	
 	boolean initFlag;
 	
 	
-	public ScopeManager(HashMap<String, HashSet<String>> dbSchema){
+	public ScopeManager(HashMap<String, HashSet<String>> dbSchema, ErrorLog errorLog){
 		this.dbSchema = dbSchema;
+		this.errorLog = errorLog;
 		this.initFlag = true;
 	}
 	
-	private ScopeManager(ScopeManager parentScope, HashMap<String, HashSet<String>> dbSchema){
+	private ScopeManager(ScopeManager parentScope, HashMap<String, HashSet<String>> dbSchema, ErrorLog errorLog){
+		this.dbSchema = dbSchema;
+		this.errorLog = errorLog;
 		this.tupleTypes = new HashMap<String, String>(); 
 		this.waitingDeclaration = new HashMap<String, ArrayList<String>>();
 		this.innerScopes = new ArrayList<ScopeManager>();
 		this.namesUsedOnInnerScopes = new HashSet<String>();
 		this.parentScope = parentScope;
 		this.freeVariableName = null;
-		this.freeVariableType = null;
 		this.relationScopeCounter = 0;
 		this.initFlag = false;
 	}	
+	
+	
+	
 	
 	public ScopeManager beginScope(){
 		ScopeManager sm;
 		
 		if(this.initFlag){
-			sm = new ScopeManager(null, this.dbSchema);
+			sm = new ScopeManager(null, this.dbSchema, this.errorLog);
 		}
 		else{
-			sm = new ScopeManager(this, this.dbSchema);
+			sm = new ScopeManager(this, this.dbSchema, this.errorLog);
 			this.addInnerScope(sm);
 		}
 		
@@ -59,18 +68,18 @@ public class ScopeManager {
 			
 			//Operacoes realizadas para escopo de Exists x
 			if(freeVariableName!=null){
+				String freeVariableType = tupleTypes.get(freeVariableName);
 				if(freeVariableType!=null){
 					ArrayList<String> temp = waitingDeclaration.get(freeVariableName);
 					if(temp != null){
 						HashSet<String> atributosDaRelacao = dbSchema.get(freeVariableType);
-						if(atributosDaRelacao== null){
-							//TODO: Relação não existe
+						if(atributosDaRelacao == null){
+							errorLog.addScopeError("RelationNotFound: A relacao " + freeVariableType + " atrelada a tupla " + freeVariableName + " não existe!");
 						}
 						else{
-							waitingDeclaration.remove(freeVariableName);
 							for(String i:temp){
 								if(!atributosDaRelacao.contains(i)){
-									//TODO: Elemento pedido não existe na relação
+									errorLog.addScopeError("AttrNotFound: A tupla " + freeVariableName + " atrelada a tabela " + freeVariableType + "não possui o atributo " + i );
 								}
 							}
 						}
@@ -78,31 +87,38 @@ public class ScopeManager {
 					
 				}
 				else{
-					System.out.println("Variavel livre não foi atrelada a nenhuma relação");
+					errorLog.addScopeError("TupleNotBinded: A tupla " + freeVariableName + " não foi atrelada nenhuma relação!");
 				}
-				
+				waitingDeclaration.remove(freeVariableName);
+				//tupleTypes.remove(freeVariableName);
 			}
 			
-			//TODO: Atender a waitingList do escopo
-			if(!waitingDeclaration.isEmpty()){
-				for(String waitingTuple: waitingDeclaration.keySet()){
-					String t = this.tupleTypes.get(waitingTuple);
-					if(t == null){
-						//TODO A variavel não foi atrelada a nenhum escopo. Mantem ela na wating list
+			
+			Set<String> waitingTuples = waitingDeclaration.keySet();
+			for(String waitingTuple: waitingTuples){
+				String tupleType = this.tupleTypes.get(waitingTuple);
+				if(tupleType != null){
+					//this.tupleTypes.remove(waitingTuple);
+					HashSet<String> typeAttr = dbSchema.get(tupleType);
+					if(typeAttr == null){
+						errorLog.addScopeError("RelationNotFound: A relacao " + tupleType + " atrelada a tupla " + waitingTuple + " não existe!");
 					}
 					else{
-						waitingDeclaration.remove(t);
 						ArrayList<String> attributesWaiting = this.waitingDeclaration.get(waitingTuple);
+						this.waitingDeclaration.remove(waitingTuple);
 						for(String i: attributesWaiting){
-							if(!dbSchema.get(t).contains(i)){
-								//TODO O esquema não contem o atributo desejado.
-								
+							if(!dbSchema.get(tupleType).contains(i)){
+								errorLog.addScopeError("AttrNotFound: A tupla " + waitingTuple + " atrelada a tabela " + tupleType + "não possui o atributo " + i );
 							}
 						}
+						
 					}
 				}
 				
+			
 			}
+			
+			
 			
 			//Nomes de tuplas utilizados no escopo atual
 			ps.namesUsedOnInnerScopes.addAll(this.tupleTypes.keySet());
@@ -118,12 +134,37 @@ public class ScopeManager {
 			
 		}
 		else{
-			if(this.relationScopeCounter == 0){
-				//TODO: A consulta principal deve ter pelo menos uma tabela;
-			};
-			if(!waitingDeclaration.isEmpty()){
-				//TODO: Existem tuplas utilizadas não atreladas a nenhuma relação 
+			
+			Set<String> waitingTuples = waitingDeclaration.keySet();
+			for(String waitingTuple: waitingTuples){
+				String tupleType = this.tupleTypes.get(waitingTuple);
+				if(tupleType != null){
+					//this.tupleTypes.remove(waitingTuple);
+					HashSet<String> typeAttr = dbSchema.get(tupleType);
+					if(typeAttr == null){
+						errorLog.addScopeError("RelationNotFound: A relacao " + tupleType + " atrelada a tupla " + waitingTuple + " não existe!");
+					}
+					else{
+						ArrayList<String> attributesWaiting = this.waitingDeclaration.get(waitingTuple);
+						this.waitingDeclaration.remove(waitingTuple);
+						for(String i: attributesWaiting){
+							if(!dbSchema.get(tupleType).contains(i)){
+								errorLog.addScopeError("AttrNotFound: A tupla " + waitingTuple + " atrelada a tabela " + tupleType + "não possui o atributo " + i );
+							}
+						}
+						
+					}
+				}
+				else{
+					errorLog.addScopeError("TupleNotBinded: A tupla " + waitingTuple + " não foi atrelada nenhuma relação!");
+				}
+				
+			
 			}
+			
+			if(this.tupleTypes.isEmpty()){
+				errorLog.addFormulaError("OutOfScopeFormula: A formula principal deve conter pelo menos uma tupla atrelada a uma relação!");
+			};
 		}
 		
 		return ps;
@@ -135,11 +176,15 @@ public class ScopeManager {
 	
 	public boolean bindTupleToRelation(String tuple, String relation){
 		if(this.lookupSymbol(tuple) != null){
-			//TODO: Tupla já está atrelada a outra relação
+			errorLog.addScopeError("TuplesMultipleBinding: A tupla " + tuple + " está gerando conflito.");
 			return false;
 		}
 		else if(this.namesUsedOnInnerScopes.contains(tuple)){
-			//TODO: Tupla já foi atrelada em um escopo mais interno
+			errorLog.addScopeError("TuplesMultipleBinding: A tupla " + tuple + " está gerando conflito.");
+			return false;
+		}
+		else if(this.dbSchema.get(relation) == null){
+			errorLog.addScopeError("RelationNotFound: A relacao " + relation + " atrelada a tupla " + tuple + " não existe!");
 			return false;
 		}
 		else{
@@ -157,10 +202,9 @@ public class ScopeManager {
 		String temp = lookupSymbol(tuple);
 		if(temp!=null){
 			if(!dbSchema.get(temp).contains(atribute)){
-				
+				errorLog.addScopeError("AttrNotFound: A tupla " + tuple + " atrelada a tabela " + temp + "não possui o atributo " + atribute );
 			}
 		}else{
-			
 			if(waitingDeclaration.get(tuple)==null){
 				waitingDeclaration.put(tuple, new ArrayList<String>());
 			}

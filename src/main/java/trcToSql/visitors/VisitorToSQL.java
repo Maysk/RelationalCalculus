@@ -1,5 +1,6 @@
 package trcToSql.visitors;
 import trcToSql.trcQueryElements.*;
+import trcToSql.visitors.utils.ErrorLog;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,20 +11,24 @@ public class VisitorToSQL implements VisitorString{
 	List<String> currentTableList;
 	ScopeManager sm;
 	HashMap<String, HashSet<String>> dbSchema;
-	public boolean error = false;
-	public String errorMsg = "";
+	ErrorLog errorLog;
 	int inNot = 0;
 	int inOr = 0;
 	
 	
 	public VisitorToSQL(HashMap<String, HashSet<String>> dbSchema){
 		this.dbSchema = dbSchema;
+		this.errorLog = new ErrorLog();
 	}
 	
 	
+	public ErrorLog getErrorLog(){
+		return this.errorLog;
+	}
+	
 	public String visit(Query n){
 		this.currentTableList = new ArrayList<String>();
-		this.sm = new ScopeManager(dbSchema); 
+		this.sm = new ScopeManager(dbSchema, errorLog); 
 		
 		this.sm = this.sm.beginScope();
 		
@@ -174,17 +179,15 @@ public class VisitorToSQL implements VisitorString{
 	
 	public String visit(AtomicFormulaIsA n){
 		if(inNot > 0){
-			error = true;
-			errorMsg = "Unsafe Query";
+			this.errorLog.addFormulaError("SafeQueryError: A formula " + n.table + "("+ n.tuple +") não pode ser negada!");
 		}
-		else if(inOr > 0){
-			error = true;
-			errorMsg = "Essa query não é permitido, apesar de ser possivelmente safe.";
+		if(inOr > 0){
+			this.errorLog.addFormulaError("OutOfScopeError: A formula " + n.table + "("+ n.tuple +") está associada a um OU!");
 		}
-		else{
-			this.sm.bindTupleToRelation(n.tuple, n.table);
-			this.currentTableList.add(n.table + " " + n.tuple);
-		}
+		
+		this.sm.bindTupleToRelation(n.tuple, n.table);
+		this.currentTableList.add(n.table + " " + n.tuple);
+	
 		
 		return null;
 	}
