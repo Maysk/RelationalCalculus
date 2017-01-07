@@ -132,29 +132,22 @@ public class TrcGrammar implements TrcGrammarConstants {
         TupleProjection p;
         Token token1;
         Token token2;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case IDENTIFICADOR:
-      token1 = jj_consume_token(IDENTIFICADOR);
-      jj_consume_token(DOT);
-      token2 = jj_consume_token(IDENTIFICADOR);
-                 p = new TupleProjection(token1.image, token2.image); tpl.add(p);
-      label_1:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          ;
-          break;
-        default:
-          jj_la1[6] = jj_gen;
-          break label_1;
-        }
-        p = tupleProjectionListRest();
-                                                tpl.add(p);
+    token1 = jj_consume_token(IDENTIFICADOR);
+    jj_consume_token(DOT);
+    token2 = jj_consume_token(IDENTIFICADOR);
+         p = new TupleProjection(token1.image, token2.image); tpl.add(p);
+    label_1:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case COMMA:
+        ;
+        break;
+      default:
+        jj_la1[6] = jj_gen;
+        break label_1;
       }
-      break;
-    default:
-      jj_la1[7] = jj_gen;
-      ;
+      p = tupleProjectionListRest();
+                                        tpl.add(p);
     }
          {if (true) return tpl;}
     throw new Error("Missing return statement in function");
@@ -183,7 +176,7 @@ public class TrcGrammar implements TrcGrammarConstants {
         ;
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[7] = jj_gen;
         break label_2;
       }
       jj_consume_token(ARROW);
@@ -206,18 +199,18 @@ public class TrcGrammar implements TrcGrammarConstants {
         break label_3;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case AND:
-        jj_consume_token(AND);
-        f2 = terminalFormula();
-                                                      f1 = new And(f1, f2);
-        break;
       case OR:
         jj_consume_token(OR);
         f2 = terminalFormula();
-                                                       f1 = new Or(f1, f2);
+                                               f1 = new Or(f1, f2);
+        break;
+      case AND:
+        jj_consume_token(AND);
+        f2 = terminalFormula();
+                                                        f1 = new And(f1, f2);
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -273,13 +266,13 @@ public class TrcGrammar implements TrcGrammarConstants {
                                                                                                              f = new Exists(token.image, f);
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[10] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -307,11 +300,6 @@ public class TrcGrammar implements TrcGrammarConstants {
     finally { jj_save(0, xla); }
   }
 
-  private boolean jj_3R_7() {
-    if (jj_scan_token(NOT)) return true;
-    return false;
-  }
-
   private boolean jj_3R_10() {
     Token xsp;
     xsp = jj_scanpos;
@@ -323,12 +311,6 @@ public class TrcGrammar implements TrcGrammarConstants {
   }
 
   private boolean jj_3R_5() {
-    if (jj_scan_token(OR)) return true;
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_4() {
     if (jj_scan_token(AND)) return true;
     if (jj_3R_6()) return true;
     return false;
@@ -344,6 +326,12 @@ public class TrcGrammar implements TrcGrammarConstants {
     if (jj_3R_9()) return true;
     }
     }
+    return false;
+  }
+
+  private boolean jj_3R_4() {
+    if (jj_scan_token(OR)) return true;
+    if (jj_3R_6()) return true;
     return false;
   }
 
@@ -367,6 +355,11 @@ public class TrcGrammar implements TrcGrammarConstants {
     return false;
   }
 
+  private boolean jj_3R_8() {
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
   private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
@@ -377,8 +370,8 @@ public class TrcGrammar implements TrcGrammarConstants {
     return false;
   }
 
-  private boolean jj_3R_8() {
-    if (jj_3R_10()) return true;
+  private boolean jj_3R_7() {
+    if (jj_scan_token(NOT)) return true;
     return false;
   }
 
@@ -393,7 +386,7 @@ public class TrcGrammar implements TrcGrammarConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[12];
+  final private int[] jj_la1 = new int[11];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -401,10 +394,10 @@ public class TrcGrammar implements TrcGrammarConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xc000000,0x4c000000,0x80010000,0xc000000,0x4c000000,0x3f00000,0x0,0x40000000,0x2000,0xc00,0x4c01d000,0x4c011000,};
+      jj_la1_0 = new int[] {0xc000000,0x4c000000,0x80010000,0xc000000,0x4c000000,0x3f00000,0x0,0x2000,0xc00,0x4c01d000,0x4c011000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x0,0x0,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -421,7 +414,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -436,7 +429,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -447,7 +440,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -458,7 +451,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -468,7 +461,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -478,7 +471,7 @@ public class TrcGrammar implements TrcGrammarConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -595,7 +588,7 @@ public class TrcGrammar implements TrcGrammarConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 11; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {

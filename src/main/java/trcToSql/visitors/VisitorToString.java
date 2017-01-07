@@ -6,9 +6,13 @@ public class VisitorToString implements Visitor{
 
 	public void visit(Query n){
 		this.stringResult = "{";
-		
+		int i = 1; 
 		for(TupleProjection t : n.tpl){
-			this.stringResult += t.tupleName + "." + t.attribute + " ";
+			this.stringResult += t.tupleName + "." + t.attribute;
+			if(i != n.tpl.size()){
+				stringResult += ", ";
+			}
+			i++;
 		}
 
 		this.stringResult += " | ";

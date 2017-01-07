@@ -74,7 +74,8 @@ textarea {
 			    		<textarea id="trcformula" class ="form-control input-lg" ng-model="trcformula" ng-blur="lastTextAreaFocused('trcformula')"  style="border-top-left-radius: 0em; border-top-right-radius: 0em;"  readonly="readonly"></textarea>
 			    					    	
 			    	</div>
-			    	<button id ="submitFormula" class="btn btn-primary" ng-click="submitFormula()" disabled="disabled">Transform</button>
+			    	<button id ="submitFormula" class="btn btn-success" ng-click="submitFormula()" disabled="disabled">Transform</button>
+			    	<button id ="cleanScope" class="btn btn-primary" ng-click="cleanScope()" disabled="disabled">Clean All</button>
 				
 				<br/> <br/>
 				
@@ -92,7 +93,7 @@ textarea {
 				<div class="lead">SQLNF Formula:</div>	
 				<textarea id="sqlnfformula" class ="form-control input-lg" ng-model="sqlnfformula" readonly="readonly" ></textarea>
 				<hr/>
-				<div class="lead">SQL Expression:</div>
+				<div class="lead">SQL Expression: <button id ="executeSQLQuery" class="btn btn-success" ng-click="executeSQLQuery()" disabled="disabled">Execute Query</button></div>
 				<textarea id="sqlexpression" class ="form-control input-lg" ng-model="sqlexpression" readonly="readonly"  ></textarea>
 			</div>
 		</div>

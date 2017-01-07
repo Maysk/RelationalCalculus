@@ -174,11 +174,11 @@ List <TupleProjection> tupleProjectionList():
 	Token token2;
 }
 {
-	[
-		token1 = <IDENTIFICADOR> <DOT> token2 = <IDENTIFICADOR>
-		{p = new TupleProjection(token1.image, token2.image); tpl.add(p);}
-		(p = tupleProjectionListRest() {tpl.add(p);})*
-	]
+	
+	token1 = <IDENTIFICADOR> <DOT> token2 = <IDENTIFICADOR>
+	{p = new TupleProjection(token1.image, token2.image); tpl.add(p);}
+	(p = tupleProjectionListRest() {tpl.add(p);})*
+
 	{return tpl;}
 } 
 
@@ -216,8 +216,10 @@ Formula andOrFormula():
 	f1 = terminalFormula()
 	(
 		LOOKAHEAD(2)
-		(	<AND> f2 = terminalFormula() {f1 = new And(f1, f2);}
-			| <OR> f2 = terminalFormula() {f1 = new Or(f1, f2);}
+		(
+		  <OR> f2 = terminalFormula() {f1 = new Or(f1, f2);}
+			| <AND> f2 = terminalFormula() {f1 = new And(f1, f2);}
+			
 		)
 	)*
 

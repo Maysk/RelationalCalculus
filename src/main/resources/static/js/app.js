@@ -25,6 +25,7 @@ var app = angular.module('myApp',[])
 		$scope.sqlexpression = "";
 		$scope.previousFocusedTextAreaId = "trcformula";
 		$("#submitFormula").removeAttr("disabled");
+		$("#cleanScope").removeAttr("disabled");
 		$("#projection").removeAttr("readonly");
 		$("#trcformula").removeAttr("readonly");
 		$("#errorsDiv").hide();
@@ -61,6 +62,9 @@ var app = angular.module('myApp',[])
 	$scope.submitFormula = function(){	
 		$("#errorsDiv").hide();
 		$("#listOfErrors").empty();
+		$("#executeSQLQuery").attr("disabled", "disabled");
+		$scope.sqlnfformula = "";
+		$scope.sqlexpression = "";
 		
 		var temp = $scope.trcformula.replace(/∀/g,"FORALL")
 									.replace(/∃/g, "EXISTS")
@@ -105,6 +109,7 @@ var app = angular.module('myApp',[])
 					$("#listOfErrors").append("<br/>");
 				}
 				if(data.responseBody.ScopeError.length != 0) {
+					
 					$("#listOfErrors").append("<b>ScopeErrors: </b><br/>");
 					for(var i=0; i< data.responseBody.ScopeError.length; i++){
 						$("#listOfErrors").append( data.responseBody.ScopeError[i] + "<br/>");
@@ -115,6 +120,7 @@ var app = angular.module('myApp',[])
 			}
 			else{
 				$scope.sqlexpression = data.responseBody.SQLQuery;
+				$("#executeSQLQuery").removeAttr("disabled");
 				console.log(data.responseBody.SQLQuery);
 			}
 			console.log(data);

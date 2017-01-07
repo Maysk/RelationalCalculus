@@ -15,7 +15,6 @@ public class VisitorToSQL implements VisitorString{
 	int inNot = 0;
 	int inOr = 0;
 	
-	
 	public VisitorToSQL(HashMap<String, HashSet<String>> dbSchema){
 		this.dbSchema = dbSchema;
 		this.errorLog = new ErrorLog();
@@ -41,12 +40,12 @@ public class VisitorToSQL implements VisitorString{
 		for(TupleProjection tuple : n.tpl){
 			s += tuple.accept(this);
 			if(i != n.tpl.size()){
-				s += ",";
+				s += ", ";
 			}
 			i++;
 		}
 
-		s += " FROM ";
+		s += " \nFROM ";
 
 		i = 1;
 		for(String table : this.currentTableList){
@@ -58,7 +57,8 @@ public class VisitorToSQL implements VisitorString{
 		}
 
 		if(cond != null){
-			s += " WHERE " + cond;			
+			
+			s += " \nWHERE " + cond;			
 		}
 		
 
@@ -68,7 +68,6 @@ public class VisitorToSQL implements VisitorString{
 	}
 	
 	public String visit(And n){
-		
 		String s1 = n.f1.accept(this);
 		String s2 = n.f2.accept(this);
 		String s;
@@ -137,7 +136,7 @@ public class VisitorToSQL implements VisitorString{
 		
 		
 		
-		String s = " EXISTS ( " + "SELECT * FROM ";
+		String s = " EXISTS ( " + " SELECT * FROM ";
 
 		int i = 1;
 		for(String t : this.currentTableList){
