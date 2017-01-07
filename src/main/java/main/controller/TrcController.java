@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.qos.logback.core.subst.Token;
 import database.DbManager;
 import trcToSql.trcGrammar.ParseException;
+import trcToSql.trcGrammar.TokenMgrError;
 import trcToSql.trcGrammar.TrcGrammar;
 import trcToSql.trcQueryElements.Query;
 import trcToSql.visitors.VisitorSQLNF;
@@ -71,6 +73,14 @@ public class TrcController {
 		System.out.println(ex.getMessage());
 		return new ObjResponse<String>("ERROR", ex.getMessage());
 	}
+	
+	@ExceptionHandler(TokenMgrError.class)
+	public ObjResponse<String> tokeError(TokenMgrError ex){
+		System.out.println(ex.getMessage());
+		return new ObjResponse<String>("ERROR", ex.getMessage());
+	}
+	
+	
 	
 	
 }

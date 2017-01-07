@@ -2,7 +2,27 @@
 <html layout:decorator="base/base">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Getting Started: Serving Web Content</title>
+<title>TRC Educational Tool</title>
+<style type="text/css">
+textarea {
+	height:auto;
+	min-height: 30px;
+	max-width:100%;
+	font-size:16px;
+	font-family:'Ubuntu', Helvetica, Arial, sans-serif;
+	width:100%;
+	border-radius:3px;
+	line-height:2em;
+	border:none;
+	box-shadow:0px 0px 5px 1px rgba(0,0,0,0.1);
+	-webkit-transition: height 2s ease;
+	-moz-transition: height 2s ease;
+	-ms-transition: height 2s ease;
+	-o-transition: height 2s ease;
+	transition: height 2s ease;
+}
+	
+</style>
 </head>
 <section layout:fragment="conteudo">
 	<div class = "row">
@@ -24,56 +44,56 @@
 		
 		<div class="col-md-9">
 			<div>
-				<form ng-submit="submitFormula()">
 			    	<div class = "form-group">	
 			    		
 			    		<!-- Projection -->
-			    		<div class = "lead">Projection</div>
-			    		<input type="text" class ="form-control input-lg" id="projection" ng-model="projection"  readonly="readonly"></input> 
+			    		<div class = "lead">Projection</div> 
+			    		<textarea id="projection" class ="form-control input-lg" ng-model="projection" ng-blur="lastTextAreaFocused('projection')"  readonly="readonly"></textarea>
 			    		<br/>
 			    		
 			    		<!-- Predicate -->
 			    		<div class="lead">Predicate</div>
     					<div class="btn-group-justified">
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∀')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∀</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∃')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∃</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∧')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∧</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('∨')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∨</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('→')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">→</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('¬')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">¬</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('∀')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∀</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('∃')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∃</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('∧')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∧</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('∨')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">∨</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('→')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">→</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('¬')" style="border-bottom-left-radius: 0em; border-bottom-right-radius: 0em;">¬</a>
 						</div>
 						
 						<div class="btn-group-justified">
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('=')" style="border-radius: 0em">=</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('≠')" style="border-radius: 0em">≠</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('≥')" style="border-radius: 0em">≥</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('≤')" style="border-radius: 0em">≤</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('&gt;')" style="border-radius: 0em">&gt;</a>
-							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('&lt;')" style="border-radius: 0em">&lt;</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('=')" style="border-radius: 0em">=</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('≠')" style="border-radius: 0em">≠</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('≥')" style="border-radius: 0em">≥</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('≤')" style="border-radius: 0em">≤</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('&gt;')" style="border-radius: 0em">&gt;</a>
+							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('&lt;')" style="border-radius: 0em">&lt;</a>
 						</div>
-						
-			    		<input type="text" class="form-control input-lg" id="trcformula" ng-model="trcformula" style="border-top-left-radius: 0em; border-top-right-radius: 0em;"  readonly="readonly"></input>
+							
+			    		<textarea id="trcformula" class ="form-control input-lg" ng-model="trcformula" ng-blur="lastTextAreaFocused('trcformula')"  style="border-top-left-radius: 0em; border-top-right-radius: 0em;"  readonly="readonly"></textarea>
 			    					    	
 			    	</div>
-			    	<button id ="submitFormula" type="submit" class="btn btn-primary" disabled="disabled">Transform</button>
-				</form>
-				<br/>
+			    	<button id ="submitFormula" class="btn btn-primary" ng-click="submitFormula()" disabled="disabled">Transform</button>
+				
+				<br/> <br/>
 				
 				<div class="alert alert-danger" id="errorsDiv" role="alert" style="display: none">
+				  
 				  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				  <p>Oh No... Deu alguma coisa errada.</p>
-				  <hr/>
+				  <p class="lead">Oh No... Deu alguma coisa errada.</p>
 				  <div id="listOfErrors"></div>
+				  
 				</div>
 				
 				<div class="lead">OUTPUT Formula:</div>
-				<input type="text" class="form-control input-lg" id="outputformula" ng-model="outputformula" readonly="readonly"></input>
-				
+				<textarea id="outputformula" class ="form-control input-lg" ng-model="outputformula" readonly="readonly" ></textarea>
+				<hr/>
 				<div class="lead">SQLNF Formula:</div>	
-				<input type="text" class="form-control input-lg" id="sqlnfformula" ng-model="sqlnfformula" readonly="readonly"></input>
-				
+				<textarea id="sqlnfformula" class ="form-control input-lg" ng-model="sqlnfformula" readonly="readonly" ></textarea>
+				<hr/>
 				<div class="lead">SQL Expression:</div>
-				<input type="text" class="form-control input-lg" id="sqlexpression" ng-model="sqlexpression" readonly="readonly"></input>
+				<textarea id="sqlexpression" class ="form-control input-lg" ng-model="sqlexpression" readonly="readonly"  ></textarea>
 			</div>
 		</div>
 		

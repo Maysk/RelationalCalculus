@@ -79,7 +79,7 @@ public class ScopeManager {
 						else{
 							for(String i:temp){
 								if(!atributosDaRelacao.contains(i)){
-									errorLog.addScopeError("AttrNotFound: A tupla " + freeVariableName + " atrelada a tabela " + freeVariableType + "não possui o atributo " + i );
+									errorLog.addScopeError("AttrNotFound: A tupla " + freeVariableName + " atrelada a tabela " + freeVariableType + " não possui o atributo " + i );
 								}
 							}
 						}
@@ -108,7 +108,7 @@ public class ScopeManager {
 						this.waitingDeclaration.remove(waitingTuple);
 						for(String i: attributesWaiting){
 							if(!dbSchema.get(tupleType).contains(i)){
-								errorLog.addScopeError("AttrNotFound: A tupla " + waitingTuple + " atrelada a tabela " + tupleType + "não possui o atributo " + i );
+								errorLog.addScopeError("AttrNotFound: A tupla " + waitingTuple + " atrelada a tabela " + tupleType + " não possui o atributo " + i );
 							}
 						}
 						
@@ -149,7 +149,7 @@ public class ScopeManager {
 						this.waitingDeclaration.remove(waitingTuple);
 						for(String i: attributesWaiting){
 							if(!dbSchema.get(tupleType).contains(i)){
-								errorLog.addScopeError("AttrNotFound: A tupla " + waitingTuple + " atrelada a tabela " + tupleType + "não possui o atributo " + i );
+								errorLog.addScopeError("AttrNotFound: A tupla " + waitingTuple + " atrelada a tabela " + tupleType + " não possui o atributo " + i );
 							}
 						}
 						
@@ -202,7 +202,7 @@ public class ScopeManager {
 		String temp = lookupSymbol(tuple);
 		if(temp!=null){
 			if(!dbSchema.get(temp).contains(atribute)){
-				errorLog.addScopeError("AttrNotFound: A tupla " + tuple + " atrelada a tabela " + temp + "não possui o atributo " + atribute );
+				errorLog.addScopeError("AttrNotFound: A tupla " + tuple + " atrelada a tabela " + temp + " não possui o atributo " + atribute );
 			}
 		}else{
 			if(waitingDeclaration.get(tuple)==null){

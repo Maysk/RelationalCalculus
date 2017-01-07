@@ -1,7 +1,6 @@
 var app = angular.module('myApp',[])
 .controller('TrcToSql', ['$scope','$http', function($scope, $http){
-	
-
+	window.$scope = $scope;
 	
 	$scope.init = function() {
 		var httpResponse = $http.post('db/availables', {});
@@ -24,6 +23,7 @@ var app = angular.module('myApp',[])
 		$scope.outputformula = "";
 		$scope.sqlnfformula = "";
 		$scope.sqlexpression = "";
+		$scope.previousFocusedTextAreaId = "trcformula";
 		$("#submitFormula").removeAttr("disabled");
 		$("#projection").removeAttr("readonly");
 		$("#trcformula").removeAttr("readonly");
@@ -86,13 +86,38 @@ var app = angular.module('myApp',[])
 			
 		if(data.status == "ERROR"){
 			console.log("ERROR");
-			$("#errorsDiv").show();
-			$("#listOfErrors").empty();
+			$("#errorsDiv").show();	
+			$("#listOfErrors").append("<br/>");
 			$("#listOfErrors").append(data.responseBody);
 			console.log(data);
 		}
 		else{
-			console.log("DeuCerto!");
+			$scope.sqlnfformula = data.responseBody.SQLNFFormula;
+			if(data.responseBody.SQLQuery == ""){
+				$("#listOfErrors").append("<br/>");
+				$("#errorsDiv").show();
+				if(data.responseBody.FormulaError.length != 0) {
+					$("#listOfErrors").append("<b>FormulaErros: </b><br/>");
+					for(var i=0; i< data.responseBody.FormulaError.length; i++){
+						$("#listOfErrors").append(data.responseBody.FormulaError[i] + "<br/>");
+						console.log(data.responseBody.FormulaError[i]);
+					}
+					$("#listOfErrors").append("<br/>");
+				}
+				if(data.responseBody.ScopeError.length != 0) {
+					$("#listOfErrors").append("<b>ScopeErrors: </b><br/>");
+					for(var i=0; i< data.responseBody.ScopeError.length; i++){
+						$("#listOfErrors").append( data.responseBody.ScopeError[i] + "<br/>");
+					}
+					$("#listOfErrors").append("<br/>");
+				}
+				
+			}
+			else{
+				$scope.sqlexpression = data.responseBody.SQLQuery;
+				console.log(data.responseBody.SQLQuery);
+			}
+			console.log(data);
 			}
 		
 		});
@@ -103,9 +128,19 @@ var app = angular.module('myApp',[])
 	}
 	
 	
+	$scope.lastTextAreaFocused = function(id){
+		$scope.previousFocusedTextAreaId = id; 
+	}
+	
+	$scope.addTextToFormulaBoxTrc = function(newText){
+		if($scope.previousFocusedTextAreaId != null){
+			$scope.previousFocusedTextAreaId = "trcformula";
+			$scope.addTextToFormulaBox(newText);
+		}
+	}
+	
 	$scope.addTextToFormulaBox = function(newText){
-		
-		var el = $("#trcformula");
+		var el = $("#" + $scope.previousFocusedTextAreaId);
 		var start = el.prop("selectionStart")
 		var end = el.prop("selectionEnd")
 		var text = el.val()
@@ -114,7 +149,19 @@ var app = angular.module('myApp',[])
 		el.val(before + newText + after)
 		el[0].selectionStart = el[0].selectionEnd = start + newText.length
 		el.focus()
+		
+		if($scope.previousFocusedTextAreaId == "projection"){
+			$scope.projection = el.val();
+		}
+		
+		if($scope.previousFocusedTextAreaId == "trcformula"){
+			$scope.trcformula = el.val();
+		}
+		
 	}
+	
+	
+	
 	
 	$scope.init();
 	
