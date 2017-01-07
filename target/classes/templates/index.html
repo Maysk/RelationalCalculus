@@ -10,7 +10,12 @@
 			<p class="lead"> Selelect the database:</p>
 			<select class = "form-control" ng-model="dbAvalilable" ng-options="x for x in databasesAvailable" ng-change="loadDbSchema()"></select>
 			<ul style="padding-left: 5px; margin-top: 10px" ng-repeat = "(table, attributes) in dbSchema">
-			<button type="button" class="btn btn-link" ng-click="addTextToFormulaBox(table)" style="font-weight: bold">{{table}}</button>
+			<button type="button" class="btn btn-default btn-xs" aria-label="Left Align" style="border-width: 0px">
+				<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+			</button>
+			<button type="button" class="btn btn-link" ng-click="addTextToFormulaBox(table)" style="font-weight: bold; padding-left: 0px">{{table}}</button>
+			
+			
 			<li ng-repeat="attribute in attributes" style="margin-left: 40px; margin-top: 0px">
 				<button type="button" class="btn btn-link" ng-click="addTextToFormulaBox(attribute)" style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px"> {{attribute}}</button>
 			</li>	
@@ -24,7 +29,7 @@
 			    		
 			    		<!-- Projection -->
 			    		<div class = "lead">Projection</div>
-			    		<input type="text" class ="form-control input-lg" id="projection" ng-model="projection"></input> 
+			    		<input type="text" class ="form-control input-lg" id="projection" ng-model="projection"  readonly="readonly"></input> 
 			    		<br/>
 			    		
 			    		<!-- Predicate -->
@@ -47,12 +52,19 @@
 							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBox('&lt;')" style="border-radius: 0em">&lt;</a>
 						</div>
 						
-			    		<input type="text" class="form-control input-lg" id="trcformula" ng-model="trcformula" style="border-top-left-radius: 0em; border-top-right-radius: 0em;"></input>
+			    		<input type="text" class="form-control input-lg" id="trcformula" ng-model="trcformula" style="border-top-left-radius: 0em; border-top-right-radius: 0em;"  readonly="readonly"></input>
 			    					    	
 			    	</div>
-			    	<button type="submit" class="btn btn-primary">Transform</button>
+			    	<button id ="submitFormula" type="submit" class="btn btn-primary" disabled="disabled">Transform</button>
 				</form>
 				<br/>
+				
+				<div class="alert alert-danger" id="errorsDiv" role="alert" style="display: none">
+				  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				  <p>Oh No... Deu alguma coisa errada.</p>
+				  <hr/>
+				  <div id="listOfErrors"></div>
+				</div>
 				
 				<div class="lead">OUTPUT Formula:</div>
 				<input type="text" class="form-control input-lg" id="outputformula" ng-model="outputformula" readonly="readonly"></input>

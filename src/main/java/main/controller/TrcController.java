@@ -42,10 +42,6 @@ public class TrcController {
 		VisitorToSQL vSql = new VisitorToSQL(dbSchema);
 		HashMap<String, Object> responseBody = new HashMap<String, Object>();
 		
-		
-
-		
-		
 		p.accept(new VisitorSQLNF());
 		p.accept(v);
 		
