@@ -19,7 +19,7 @@ public class DbManager {
 		availablesDbs = new ArrayList<>();
 		dbsSchemas = new HashMap<String, HashMap<String, HashSet<String>>>();
 	}
-
+	
 	public static DbManager getInstance() {
 		if(uniqueInstance == null){
 			uniqueInstance = new DbManager();
@@ -40,6 +40,37 @@ public class DbManager {
 		return availablesDbs;
 	}
 	
+	
+	public HashMap<String, Object> executeSQLQuery(String dbName, String sql) throws ClassNotFoundException, SQLException{
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		Connection c;
+		Class.forName("org.sqlite.JDBC");
+		c = DriverManager.getConnection("jdbc:sqlite:databases\\"+dbName + ".db");
+		PreparedStatement p = c.prepareStatement(sql);
+		ResultSet rs = p.executeQuery();
+		ResultSetMetaData rsMeta = rs.getMetaData();
+		ArrayList <String> colunms = new ArrayList<String>();
+		
+		for(int i =1; i<= rsMeta.getColumnCount(); i++){
+			colunms.add( rsMeta.getColumnLabel(i));
+		}
+		
+		ArrayList<ArrayList<Object>> retrivedTuples = new ArrayList<ArrayList<Object>>(); 
+		ArrayList<Object> element = new ArrayList<Object>();
+		
+		while(rs.next()){
+			element = new ArrayList<Object>();
+			for(int i = 1; i<= rsMeta.getColumnCount(); i++){
+				element.add(rs.getObject(i));
+			}
+			retrivedTuples.add(element);
+		}
+		
+		result.put("colunms", colunms);
+		result.put("retrivedTuples", retrivedTuples);
+		
+		return result;
+	}
 	
 	public HashMap<String, HashSet<String>> getDbSchema(String dbName) throws SQLException, ClassNotFoundException {
 		HashMap<String, HashSet<String>> result = dbsSchemas.get(dbName);

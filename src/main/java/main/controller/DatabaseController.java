@@ -36,6 +36,12 @@ public class DatabaseController {
 		return new ObjResponse<ArrayList <String>>("OK", dbManager.getAvailablesDbs());
 	}
 	
+	@RequestMapping(value = "/executeSQLQuery/{dbname}/{sqlquery}", method = RequestMethod.POST)
+    public ObjResponse<HashMap<String, Object>> executeSQLQuery(@PathVariable("dbname") String dbName, @PathVariable("sqlquery") String sqlQuey) throws SQLException, ClassNotFoundException {	
+				
+		return new ObjResponse<HashMap<String, Object>>("OK", dbManager.executeSQLQuery(dbName, sqlQuey));
+	}
+	
 	@RequestMapping(value = "/db/{dbname}", method = RequestMethod.POST)
     public ObjResponse<String> testConnection(@PathVariable("dbname") String dbName) throws SQLException, ClassNotFoundException {
 			Class.forName("org.sqlite.JDBC");

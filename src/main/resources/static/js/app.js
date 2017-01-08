@@ -167,7 +167,19 @@ var app = angular.module('myApp',[])
 	}
 	
 	
-	
+	$scope.getTableData = function(tableName){
+		
+		var sqlquery = "SELECT * FROM " + tableName;
+		
+		var httpResponse = $http.post('executeSQLQuery/' + $scope.dbAvalilable + '/' + sqlquery, {});
+		httpResponse.success(function(data, status, headers, config) {
+			console.log(data);
+		});
+		
+		httpResponse.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+		});
+	} 
 	
 	$scope.init();
 	
