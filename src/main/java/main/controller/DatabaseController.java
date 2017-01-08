@@ -41,8 +41,7 @@ public class DatabaseController {
 	
 	@RequestMapping(value = "/executeSQLQuery/{dbname}", method = RequestMethod.POST)
     public ObjResponse<HashMap<String, Object>> executeSQLQuery(@PathVariable("dbname") String dbName, @RequestBody ObjRequest objModel) throws SQLException, ClassNotFoundException {
-		String sqlQuery = objModel.getRequestBody();
-		System.out.println(sqlQuery);		
+		String sqlQuery = objModel.getRequestBody();		
 		return new ObjResponse<HashMap<String, Object>>("OK", dbManager.executeSQLQuery(dbName, sqlQuery));
 	}
 	

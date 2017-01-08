@@ -7,6 +7,7 @@ import trcToSql.trcQueryElements.*;
 import trcToSql.visitors.*;
 
 public class Main{
+	/*
 	public static void main(String[] args) throws Exception{
 		//TrcGrammar parser = new TrcGrammar(System.in);
 		TrcGrammar parser = new TrcGrammar(new ByteArrayInputStream("{x.a | R(x)}".getBytes()));
@@ -32,4 +33,5 @@ public class Main{
 		System.out.println(vSql.getErrorLog().getScopeErrors());
 
 	}
+	*/
 }

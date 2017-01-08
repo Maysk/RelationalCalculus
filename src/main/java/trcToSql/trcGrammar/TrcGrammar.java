@@ -5,12 +5,13 @@ import java.util.List;
 import trcToSql.trcQueryElements.*;
 
 public class TrcGrammar implements TrcGrammarConstants {
+/*
   public static void main(String args []) throws ParseException
   {
     TrcGrammar parser = new TrcGrammar(System.in);
         Query p = parser.query();
   }
-
+*/
 //Usar o padrao factory pra gerar Formulas com operator
   final public Formula atomicFormula() throws ParseException {
         Formula af;
