@@ -35,7 +35,7 @@ public class VisitorToSQL implements VisitorString{
 		
 		
 		
-		String s = "SELECT ";
+		String s = "SELECT DISTINCT ";
 		int i = 1; 
 		for(TupleProjection tuple : n.tpl){
 			s += tuple.accept(this);
@@ -136,7 +136,7 @@ public class VisitorToSQL implements VisitorString{
 		
 		
 		
-		String s = " EXISTS ( " + " SELECT * FROM ";
+		String s = " EXISTS ( " + " SELECT DISTINCT * FROM ";
 
 		int i = 1;
 		for(String t : this.currentTableList){
