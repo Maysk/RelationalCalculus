@@ -185,7 +185,7 @@ public class VisitorToSQL implements VisitorString{
 		}
 		
 		this.sm.bindTupleToRelation(n.tuple, n.table);
-		this.currentTableList.add(n.table + " " + n.tuple);
+		this.currentTableList.add(n.table + " as " + n.tuple);
 	
 		
 		return null;

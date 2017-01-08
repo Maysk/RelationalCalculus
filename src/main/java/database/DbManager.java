@@ -30,7 +30,6 @@ public class DbManager {
 	}
 	
 	private void initializeAvailableDbs() {
-		availablesDbs.add("Teste");
 		availablesDbs.add("UIBK - R, S, T");
 		availablesDbs.add("Kemper Datenbanksysteme");
 		availablesDbs.add("Database Systems The Complete Book - Exercise 2 4 1");

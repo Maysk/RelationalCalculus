@@ -11,13 +11,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import main.model.ObjRequest;
 import main.model.ObjResponse;
 
 
 
 
 
+
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +39,11 @@ public class DatabaseController {
 		return new ObjResponse<ArrayList <String>>("OK", dbManager.getAvailablesDbs());
 	}
 	
-	@RequestMapping(value = "/executeSQLQuery/{dbname}/{sqlquery}", method = RequestMethod.POST)
-    public ObjResponse<HashMap<String, Object>> executeSQLQuery(@PathVariable("dbname") String dbName, @PathVariable("sqlquery") String sqlQuey) throws SQLException, ClassNotFoundException {	
-				
-		return new ObjResponse<HashMap<String, Object>>("OK", dbManager.executeSQLQuery(dbName, sqlQuey));
+	@RequestMapping(value = "/executeSQLQuery/{dbname}", method = RequestMethod.POST)
+    public ObjResponse<HashMap<String, Object>> executeSQLQuery(@PathVariable("dbname") String dbName, @RequestBody ObjRequest objModel) throws SQLException, ClassNotFoundException {
+		String sqlQuery = objModel.getRequestBody();
+		System.out.println(sqlQuery);		
+		return new ObjResponse<HashMap<String, Object>>("OK", dbManager.executeSQLQuery(dbName, sqlQuery));
 	}
 	
 	@RequestMapping(value = "/db/{dbname}", method = RequestMethod.POST)

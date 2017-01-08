@@ -167,13 +167,45 @@ var app = angular.module('myApp',[])
 	}
 	
 	
-	$scope.getTableData = function(tableName){
+	$scope.executeSQLQuery = function(){
+		var editModal = $('#sqlModalResults');
+		$scope.modalTitle = "Results"; 
+		var dataObj = {
+				requestBody : $scope.sqlexpression
+		}
 		
-		var sqlquery = "SELECT * FROM " + tableName;
-		
-		var httpResponse = $http.post('executeSQLQuery/' + $scope.dbAvalilable + '/' + sqlquery, {});
+		var httpResponse = $http.post('executeSQLQuery/' + $scope.dbAvalilable , dataObj);
 		httpResponse.success(function(data, status, headers, config) {
 			console.log(data);
+			$scope.colunmsQuery = data.responseBody.colunms;
+			$scope.sqlQueryResult = data.responseBody.retrivedTuples;
+			editModal.modal();
+		});
+		
+		httpResponse.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+		});
+		
+	}
+	
+	
+	$scope.getTableData = function(tableName){
+		
+		
+		var editModal = $('#sqlModalResults');
+		$scope.modalTitle = tableName; 
+		var sqlquery = "SELECT * FROM " + tableName;
+		
+		var dataObj = {
+				requestBody : sqlquery
+		}
+		
+		var httpResponse = $http.post('executeSQLQuery/' + $scope.dbAvalilable, dataObj);
+		httpResponse.success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.colunmsQuery = data.responseBody.colunms;
+			$scope.sqlQueryResult = data.responseBody.retrivedTuples;
+			editModal.modal();
 		});
 		
 		httpResponse.error(function(data, status, headers, config) {
