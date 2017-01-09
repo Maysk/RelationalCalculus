@@ -1,0 +1,87 @@
+group: UIBK - KursDB
+description: Tables from and for the lecture [Databases: Foundations, Data Models and System Concepts - University of Innsbruck](http://dbis-informatik.uibk.ac.at/249-0-VO-Datenbanksysteme.html) chapter 3 
+
+Kurs = {
+KursNr, Titel
+
+G08,    'Grundlagen I'
+G10,    'Grundlagen II'
+P13,    'C-Programmierung'
+I09,    Datenbanken
+}
+
+Kursleiter = {
+PersNr, Name,         Gehalt
+
+27183, 'Meier, I.',   4300.50
+29594, 'Schulze, H.', 3890.20
+38197, 'Huber, L.',   4200.10
+43325, 'Müller, K.',  3400.80
+}
+
+Vorauss = {
+VorNr, KursNr
+G08,   P13
+G10,   P13
+G08,   I09
+G10,   I09
+P13,   I09
+}
+
+Fuehrt_durch = {
+AngNr	KursNr	PersNr
+1	G08	38197
+2	G08	38197
+1	G10	43325
+2	G10	29594
+1	P13	27183
+2	P13	27183
+1	I09	29594
+2	I09	29594
+3	I09	29594
+}
+
+Teilnehmer = {
+TnNr, Name,           Ort 
+143,  'Schmidt, M.',  Bremen 
+145,  'Huber, Chr.',  Augsburg 
+146,  'Abele, I.',    Senden 
+149,  'Kircher, B.',  Bochum 
+155,  'Meier, W.',    Stuttgart 
+171,  'Möller, H.',   Innsbruck 
+173,  'Schulze, B.',  Stuttgart 
+177,  'Mons, F.',     Essen 
+185,  'Meier, K.',    Heidelberg 
+187,  'Karstens, L.', Hamburg 
+194,  'Gerstner, M.', Innsbruck 
+}
+
+Nimmt_teil = {
+AngNr	KursNr	TnNr
+2	G08	143
+2	P13	143
+1	G08	145
+1	P13	146
+1	I09	146
+2	P13	149
+1	I09	155
+1	I09	171
+1	I09	173
+2	P13	177
+1	I09	185
+2	I09	187
+1	P13	194
+}
+
+Angebot = {
+AngNr	KursNr	Datum	Ort
+1	G08	2000-10-13	'München'
+2	G08	2000-11-24	Bremen
+1	G10	2000-12-01	'München'
+2	G10	2001-02-15	Hamburg
+1	P13	2001-05-28	Innsbruck
+2	P13	2001-07-01	Essen
+1	I09	2001-03-27	Stuttgart
+2	I09	2001-04-23	Hamburg
+3	I09	2001-05-29	'München'
+}

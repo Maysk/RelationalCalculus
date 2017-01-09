@@ -1,0 +1,52 @@
+
+
+group:Wikipedia - Relational algebra (en)
+description[[This are the tables from [Relational algebra - Wikipedia The Free Encyclopedia](http://en.wikipedia.org/wiki/Relational_algebra)
+
+license: [CC BY-SA](http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License)]]
+
+Employee = {
+	Name:string, EmpId:number, DeptName:string
+	'Harry'    , 3415        , 'Finance'      
+	'Sally'    , 2241        , 'Sales'        
+	'George'   , 3401        , 'Finance'      
+	'Harriet'  , 2202        , 'Sales'        
+	'Tim'      , 1123        , 'Executive'    
+}
+
+Dept = {
+	DeptName:string, Manager:string
+	'Sales'        , 'Harriet'     
+	'Production'   , 'Charles'     
+}
+
+Completed = {
+	Student:string, Task:string
+	'Fred'        , 'Database1'
+	'Fred'        , 'Database2'
+	'Fred'        , 'Compiler1'
+	'Eugene'      , 'Database1'
+	'Eugene'      , 'Compiler1'
+	'Sarah'       , 'Database1'
+	'Sarah'       , 'Database2'
+}
+
+DBProject = {
+	Task:string
+	'Database1'
+	'Database2'
+}
+
+Car = {
+	CarModel:string, CarPrice:number
+	'CarA'         , 20000          
+	'CarB'         , 30000          
+	'CarC'         , 50000          
+}
+
+Boat = {
+	BoatModel:string, BoatPrice:number
+	'Boat1'         , 10000           
+	'Boat2'         , 40000           
+	'Boat3'         , 60000           
+}
