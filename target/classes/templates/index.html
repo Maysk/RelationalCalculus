@@ -27,7 +27,7 @@ textarea {
 <section layout:fragment="conteudo">
 	<div class = "row">
 		<div class="col-md-3">
-			<p class="lead"> Selelect the database:</p>
+			<p class="lead"> Selelect Database:</p>
 			<select class = "form-control" ng-model="dbAvalilable" ng-options="x for x in databasesAvailable" ng-change="loadDbSchema()"></select>
 			<ul style="padding-left: 5px; margin-top: 10px" ng-repeat = "(table, attributes) in dbSchema">
 			<button type="button" ng-click="getTableData(table)" class="btn btn-default btn-xs" aria-label="Left Align" style="border-width: 0px">
@@ -82,7 +82,7 @@ textarea {
 				<div class="alert alert-danger" id="errorsDiv" role="alert" style="display: none">
 				  
 				  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				  <p class="lead">Oh No... Deu alguma coisa errada.</p>
+				  <p class="lead">Something get wrong: </p>
 				  <div id="listOfErrors"></div>
 				  
 				</div>
