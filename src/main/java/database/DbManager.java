@@ -10,41 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class DbManager {
-	private static DbManager uniqueInstance;
-	private ArrayList <String> availablesDbs;
-	HashMap<String, HashMap<String, HashSet<String>>> dbsSchemas;
+public abstract class DbManager {
 	
-	private DbManager(){
-		availablesDbs = new ArrayList<>();
-		dbsSchemas = new HashMap<String, HashMap<String, HashSet<String>>>();
+	public DbManager(){
 	}
 	
-	public static DbManager getInstance() {
-		if(uniqueInstance == null){
-			uniqueInstance = new DbManager();
-			uniqueInstance.initializeAvailableDbs();
-			System.out.println("Criou uma instancia de DbManager!!!!!!!!!!");
-		}
-		return uniqueInstance;
-	}
-	
-	private void initializeAvailableDbs() {
-		availablesDbs.add("UIBK - R, S, T");
-		availablesDbs.add("Kemper Datenbanksysteme");
-		availablesDbs.add("Database Systems The Complete Book - Exercise 2 4 1");
-	}
-	
-	public ArrayList<String> getAvailablesDbs(){
-		return availablesDbs;
-	}
-	
-	
-	public HashMap<String, Object> executeSQLQuery(String dbName, String sql) throws ClassNotFoundException, SQLException{
+	HashMap<String, Object> executeSQLQuery(Connection c, String dbName, String sql) throws ClassNotFoundException, SQLException{
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		Connection c;
-		Class.forName("org.sqlite.JDBC");
-		c = DriverManager.getConnection("jdbc:sqlite:databases\\"+dbName + ".db");
 		PreparedStatement p = c.prepareStatement(sql);
 		ResultSet rs = p.executeQuery();
 		ResultSetMetaData rsMeta = rs.getMetaData();
@@ -71,43 +43,38 @@ public class DbManager {
 		return result;
 	}
 	
-	public HashMap<String, HashSet<String>> getDbSchema(String dbName) throws SQLException, ClassNotFoundException {
-		HashMap<String, HashSet<String>> result = dbsSchemas.get(dbName);
-		if (result == null){
-			Connection c;
-			HashMap<String, HashSet<String>> tablesAndColunms;
+	HashMap<String, HashSet<String>> getDbSchema(Connection c, String dbName) throws SQLException, ClassNotFoundException{
+		HashMap<String, HashSet<String>> result;
+	
+		HashMap<String, HashSet<String>> tablesAndColunms;
+		tablesAndColunms = new HashMap<String, HashSet<String>>();
+		PreparedStatement p = c.prepareStatement("SELECT distinct (name) FROM sqlite_master WHERE type = 'table'");
+		ResultSet rsTables = p.executeQuery();
 		
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:databases\\"+dbName + ".db");
-			tablesAndColunms = new HashMap<String, HashSet<String>>();
+		while(rsTables.next()){
+			String tableName = rsTables.getString(1);
+			HashSet <String> colunms = new HashSet<String>();
 			
-			PreparedStatement p = c.prepareStatement("SELECT distinct (name) FROM sqlite_master WHERE type = 'table'");
-			ResultSet rsTables = p.executeQuery();
+			p = c.prepareStatement("SELECT * FROM "+ tableName + " LIMIT 1");
 			
-			while(rsTables.next()){
-				String tableName = rsTables.getString(1);
-				HashSet <String> colunms = new HashSet<String>();
-				
-				p = c.prepareStatement("SELECT * FROM "+ tableName + " LIMIT 1");
-				
-				ResultSetMetaData rsColunms = p.executeQuery().getMetaData();
-				for(int i =1; i<=rsColunms.getColumnCount(); i++){
-					colunms.add(rsColunms.getColumnLabel(i));
-					//rsColunms.getColumnTypeName(i);
-				}
-				tablesAndColunms.put(tableName, colunms);
+			ResultSetMetaData rsColunms = p.executeQuery().getMetaData();
+			for(int i =1; i<=rsColunms.getColumnCount(); i++){
+				colunms.add(rsColunms.getColumnLabel(i));
 			}
-			
-			c.close();
-			dbsSchemas.put(dbName, tablesAndColunms);
-			result = tablesAndColunms;
-		
+			tablesAndColunms.put(tableName, colunms);
 		}
 		
+		result = tablesAndColunms;
+	
 		return result;
 	}
 	
+	public abstract HashMap<String, Object> executeSQLQuery(String dbName, String sql) throws ClassNotFoundException, SQLException;
+	public abstract HashMap<String, HashSet<String>> getDbSchema(String dbName) throws SQLException, ClassNotFoundException;
+	public abstract ArrayList<String> getAvailablesDbs();
 	
 	
+		
 	
+
 }
