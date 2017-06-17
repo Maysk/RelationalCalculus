@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 public abstract class DbManager {
 	
-	public DbManager(){
+	DbManager(){
 	}
 	
 	HashMap<String, Object> executeSQLQuery(Connection c, String dbName, String sql) throws ClassNotFoundException, SQLException{
@@ -40,32 +40,6 @@ public abstract class DbManager {
 		result.put("colunms", colunms);
 		result.put("retrivedTuples", retrivedTuples);
 		
-		return result;
-	}
-	
-	HashMap<String, HashSet<String>> getDbSchema(Connection c, String dbName) throws SQLException, ClassNotFoundException{
-		HashMap<String, HashSet<String>> result;
-	
-		HashMap<String, HashSet<String>> tablesAndColunms;
-		tablesAndColunms = new HashMap<String, HashSet<String>>();
-		PreparedStatement p = c.prepareStatement("SELECT distinct (name) FROM sqlite_master WHERE type = 'table'");
-		ResultSet rsTables = p.executeQuery();
-		
-		while(rsTables.next()){
-			String tableName = rsTables.getString(1);
-			HashSet <String> colunms = new HashSet<String>();
-			
-			p = c.prepareStatement("SELECT * FROM "+ tableName + " LIMIT 1");
-			
-			ResultSetMetaData rsColunms = p.executeQuery().getMetaData();
-			for(int i =1; i<=rsColunms.getColumnCount(); i++){
-				colunms.add(rsColunms.getColumnLabel(i));
-			}
-			tablesAndColunms.put(tableName, colunms);
-		}
-		
-		result = tablesAndColunms;
-	
 		return result;
 	}
 	
