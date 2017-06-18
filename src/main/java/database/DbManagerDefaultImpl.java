@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 public class DbManagerDefaultImpl extends DbManager{
 	
-	private DbManagerDefaultImpl(){
+	public DbManagerDefaultImpl(){
 		super();
 	}
 

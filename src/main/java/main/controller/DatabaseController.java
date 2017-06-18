@@ -26,13 +26,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import database.DbManager;
+import database.DbManagerDefaultImpl;
 
 
 
 @RestController
 public class DatabaseController {
 	
-	DbManager dbManager = DbManager.getInstance();
+	DbManager dbManager = new DbManagerDefaultImpl();
 	
 	@RequestMapping(value = "/db/availables", method = RequestMethod.POST)
     public ObjResponse<ArrayList <String>> availablesDatabases() throws SQLException, ClassNotFoundException {	

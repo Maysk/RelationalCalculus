@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.qos.logback.core.subst.Token;
 import database.DbManager;
+import database.DbManagerDefaultImpl;
 import trcToSql.trcGrammar.ParseException;
 import trcToSql.trcGrammar.TokenMgrError;
 import trcToSql.trcGrammar.TrcGrammar;
@@ -32,7 +33,7 @@ import trcToSql.visitors.VisitorToString;
 @RestController
 public class TrcController {
 	
-	DbManager dbManager = DbManager.getInstance();
+	DbManager dbManager = new DbManagerDefaultImpl();
 	
 	@RequestMapping(value = "/trc/converttosqlnf/{dbname}", method = RequestMethod.POST)
     public ObjResponse<HashMap<String, Object>> greeting(@RequestBody ObjRequest objModel, @PathVariable("dbname") String dbName) throws ParseException, ClassNotFoundException, SQLException {

@@ -16,7 +16,7 @@ public class DbManagerPostgres extends DbManager{
 	private String password;
 	private String hostName;
 	
-	public DbManagerPostgres(){
+	public DbManagerPostgres(String userName, String password, String hostName){
 		super();
 	}
 	
