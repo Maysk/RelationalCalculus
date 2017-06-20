@@ -27,13 +27,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import database.DbManager;
 import database.DbManagerDefaultImpl;
+import database.DbManagerPostgres;
 
 
 
 @RestController
 public class DatabaseController {
 	
-	DbManager dbManager = new DbManagerDefaultImpl();
+	//DbManager dbManager = new DbManagerDefaultImpl();
+	DbManager dbManager = new DbManagerPostgres("postgres", "260794", "localhost", "5432");
+	
 	
 	@RequestMapping(value = "/db/availables", method = RequestMethod.POST)
     public ObjResponse<ArrayList <String>> availablesDatabases() throws SQLException, ClassNotFoundException {	

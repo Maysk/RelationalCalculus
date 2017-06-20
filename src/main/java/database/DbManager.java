@@ -39,6 +39,8 @@ public abstract class DbManager {
 		
 		result.put("colunms", colunms);
 		result.put("retrivedTuples", retrivedTuples);
+		rs.close();
+		p.close();
 		
 		return result;
 	}
