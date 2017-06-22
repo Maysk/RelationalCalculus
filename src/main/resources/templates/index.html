@@ -26,7 +26,14 @@ textarea {
 </head>
 <section layout:fragment="conteudo">
 	<div class = "row">
-		<div class="col-md-3">
+		<div class="col-md-3">		
+			<div style="padding-bottom: 20px">
+				<span class="lead"> SGBD 
+					<small><span class="glyphicon glyphicon-info-sign" aria-hidden="true"> </span></small>
+					<small><span class="glyphicon glyphicon-refresh" aria-hidden="true"> </span></small>
+				</span><br/>
+				<span style="font-weight: bold; padding-left: 15px">Name: </span>SQLite<br/>
+			</div>
 			<p class="lead"> Selelect Database:</p>
 			<select class = "form-control" ng-model="dbAvalilable" ng-options="x for x in databasesAvailable" ng-change="loadDbSchema()"></select>
 			<ul style="padding-left: 5px; margin-top: 10px" ng-repeat = "(table, attributes) in dbSchema">

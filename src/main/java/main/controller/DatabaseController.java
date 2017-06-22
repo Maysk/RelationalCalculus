@@ -34,8 +34,8 @@ import database.DbManagerPostgres;
 @RestController
 public class DatabaseController {
 	
-	//DbManager dbManager = new DbManagerDefaultImpl();
-	DbManager dbManager = new DbManagerPostgres("postgres", "260794", "localhost", "5432");
+	DbManager dbManager = new DbManagerDefaultImpl();
+	//DbManager dbManager = new DbManagerPostgres("postgres", "260794", "localhost", "5432");
 	
 	
 	@RequestMapping(value = "/db/availables", method = RequestMethod.POST)
