@@ -28,11 +28,18 @@ textarea {
 	<div class = "row">
 		<div class="col-md-3">		
 			<div style="padding-bottom: 20px">
-				<span class="lead"> SGBD 
-					<small><span class="glyphicon glyphicon-info-sign" aria-hidden="true"> </span></small>
-					<small><span class="glyphicon glyphicon-refresh" aria-hidden="true"> </span></small>
+				<span class="lead"> 
+					<button type="button" ng-click="openModalSelectDatabase()" class="btn btn-default btn-sm" aria-label="Change Database" style="border-width: 1x; margin-top: -5px">
+						<span class="glyphicon glyphicon-cog" aria-hidden="true"> </span>
+					</button>
+					SGBD 
 				</span><br/>
-				<span style="font-weight: bold; padding-left: 15px">Name: </span>SQLite<br/>
+				<span style="font-weight: bold; padding-left: 20px">Name: </span>{{selectedSgbd}}<br/>
+				<div ng-if="!(selectedSgbd == 'SQLite')">
+					<span style="font-weight: bold; padding-left: 20px">Host: {{hostname}}<br/></span>
+					<span style="font-weight: bold; padding-left: 20px">Port: {{port}}<br/></span>
+					<span style="font-weight: bold; padding-left: 20px">Username: {{username}}<br/></span>
+				</div>
 			</div>
 			<p class="lead"> Selelect Database:</p>
 			<select class = "form-control" ng-model="dbAvalilable" ng-options="x for x in databasesAvailable" ng-change="loadDbSchema()"></select>
@@ -130,6 +137,53 @@ textarea {
                         </tr>
               	</tbody>
            	</table>       	
+	       </div> 
+	    </div>
+	  </div>
+	</div>
+	
+	<div class="modal fade bs-example-modal-lg" id="modalSelectDatabase" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	      <div class="btn-group"  style="float:right;">
+				<button type="button" ng-click="teste()" class="btn btn-success btn-sm " >
+					<span class="glyphicon glyphicon-save" aria-hidden="true"></span>	
+					Save
+				</button>
+					
+				<button type="button" class="btn btn-default btn-sm " data-dismiss="modal">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	
+					Close
+				</button>
+				
+	
+			</div>
+			
+	       	<h4	class="modal-title">Select SGBD</h4>
+	       </div>
+	       <div class="modal-body">
+			<select ng-change="" ng-model="selectedSgbd" class="form-control input-lg">
+				<option selected="selected" value="SQLite">SQLite - Default</option>
+				<option value="PostgreSQL">PostgreSQL</option>
+				<option value="MySQL">MySQL</option>
+				<option value="SQLServer">SQL Server</option>
+			</select>
+			<br/>
+			<div ng-if="!(selectedSgbd == 'SQLite')">
+					<span class="lead" style="font-weight: bold; padding-left: 10px">Host<br/></span>
+					<input type="text" id="hostnameInput" class ="form-control input-md" ng-model = "testeHostname"/>
+					
+					<span class="lead" style="font-weight: bold; padding-left: 10px">Port<br/></span>
+					<input type="text" id="portInput" class ="form-control input-md" ng-model="port"></input>
+					
+					<span class="lead" style="font-weight: bold; padding-left: 10px">Username<br/></span>
+					<input type="text" id="usernameInput" class ="form-control input-md" ng-model="username"></input>
+					
+					<span class="lead" style="font-weight: bold; padding-left: 10px">Password<br/></span>
+					<input type="password" id="passwordInput" class ="form-control input-md" ng-model="password"></input>
+					
+			</div> 	
 	       </div> 
 	    </div>
 	  </div>

@@ -16,7 +16,17 @@ var app = angular.module('myApp',[])
 				
 	}
 	
-
+	$scope.selectedSgbd = "SQLite";
+	$scope.hostname = "aaa";
+	$scope.port = "";
+	$scope.username = ""
+	$scope.password = "";
+	$scope.testeHostname = "";
+	
+	$scope.teste = function(){
+		console.log($scope.testeHostname)
+	}
+	
 	$scope.cleanScope = function(){
 		$scope.projection = "";
 		$scope.trcformula = "";
@@ -30,6 +40,11 @@ var app = angular.module('myApp',[])
 		$("#trcformula").removeAttr("readonly");
 		$("#errorsDiv").hide();
 		$("#listOfErrors").empty();
+	}
+	//modalSelectDatabase
+	$scope.openModalSelectDatabase = function(){
+		var modalSelectSGDB = $('#modalSelectDatabase');
+		modalSelectSGDB.modal();
 	}
 	
 	$scope.loadDbSchema = function(){
