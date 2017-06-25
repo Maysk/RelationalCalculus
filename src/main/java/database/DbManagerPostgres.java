@@ -99,4 +99,20 @@ public class DbManagerPostgres extends DbManager{
 		return result;
 	}
 
+	@Override
+	public boolean testConnection() {
+		try{
+			Class.forName("org.postgresql.Driver");
+			String url = "jdbc:postgresql://" + hostName + ":" + port + "/postgres";
+			System.out.println(url);
+			Connection connection = DriverManager.getConnection(url, userName, password);
+			connection.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 }

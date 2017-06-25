@@ -147,43 +147,40 @@ textarea {
 	    <div class="modal-content">
 	      <div class="modal-header">
 	      <div class="btn-group"  style="float:right;">
-				<button type="button" ng-click="teste()" class="btn btn-success btn-sm " >
+				<button type="button" ng-click="changeSgbd()" class="btn btn-success btn-sm " >
 					<span class="glyphicon glyphicon-save" aria-hidden="true"></span>	
 					Save
 				</button>
-					
 				<button type="button" class="btn btn-default btn-sm " data-dismiss="modal">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	
 					Close
 				</button>
-				
-	
 			</div>
 			
 	       	<h4	class="modal-title">Select SGBD</h4>
 	       </div>
 	       <div class="modal-body">
-			<select ng-change="" ng-model="selectedSgbd" class="form-control input-lg">
-				<option selected="selected" value="SQLite">SQLite - Default</option>
-				<option value="PostgreSQL">PostgreSQL</option>
-				<option value="MySQL">MySQL</option>
-				<option value="SQLServer">SQL Server</option>
-			</select>
-			<br/>
-			<div ng-if="!(selectedSgbd == 'SQLite')">
-					<span class="lead" style="font-weight: bold; padding-left: 10px">Host<br/></span>
-					<input type="text" id="hostnameInput" class ="form-control input-md" ng-model = "testeHostname"/>
-					
-					<span class="lead" style="font-weight: bold; padding-left: 10px">Port<br/></span>
-					<input type="text" id="portInput" class ="form-control input-md" ng-model="port"></input>
-					
-					<span class="lead" style="font-weight: bold; padding-left: 10px">Username<br/></span>
-					<input type="text" id="usernameInput" class ="form-control input-md" ng-model="username"></input>
-					
-					<span class="lead" style="font-weight: bold; padding-left: 10px">Password<br/></span>
-					<input type="password" id="passwordInput" class ="form-control input-md" ng-model="password"></input>
-					
-			</div> 	
+				<select ng-change="" ng-model="selectionSgbd" class="form-control input-lg">
+					<option selected="selected" value="SQLite">SQLite - Default</option>
+					<option value="PostgreSQL">PostgreSQL</option>
+					<option value="MySQL">MySQL</option>
+					<option value="SQLServer">SQL Server</option>
+				</select>
+				<br/>
+				<div ng-if="!(selectionSgbd == 'SQLite')">
+						<span class="lead" style="font-weight: bold; padding-left: 10px">Host<br/></span>
+						<input type="text" id="testHostname" class ="form-control input-md" ng-model = "testHostname"/>
+						
+						<span class="lead" style="font-weight: bold; padding-left: 10px">Port<br/></span>
+						<input type="text" id="testPort" class ="form-control input-md" ng-model="testPort"></input>
+						
+						<span class="lead" style="font-weight: bold; padding-left: 10px">Username<br/></span>
+						<input type="text" id="testUsername" class ="form-control input-md" ng-model="testUsername"></input>
+						
+						<span class="lead" style="font-weight: bold; padding-left: 10px">Password<br/></span>
+						<input type="password" id="testPassword" class ="form-control input-md" ng-model="testPassword"></input>
+						
+				</div> 	
 	       </div> 
 	    </div>
 	  </div>

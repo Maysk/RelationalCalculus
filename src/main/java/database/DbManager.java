@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public abstract class DbManager {
+	 
 	
 	DbManager(){
 	}
@@ -48,7 +49,7 @@ public abstract class DbManager {
 	public abstract HashMap<String, Object> executeSQLQuery(String dbName, String sql) throws ClassNotFoundException, SQLException;
 	public abstract HashMap<String, HashSet<String>> getDbSchema(String dbName) throws SQLException, ClassNotFoundException;
 	public abstract ArrayList<String> getAvailablesDbs();
-	
+	public abstract boolean testConnection();
 	
 		
 	

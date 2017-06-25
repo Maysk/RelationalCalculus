@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import main.model.ObjRequest;
+import main.model.ObjRequestConnectionSgbd;
 import main.model.ObjResponse;
 
 
@@ -37,6 +38,32 @@ public class DatabaseController {
 	DbManager dbManager = new DbManagerDefaultImpl();
 	//DbManager dbManager = new DbManagerPostgres("postgres", "260794", "localhost", "5432");
 	
+	
+	
+	@RequestMapping(value="/connectSgbd", method = RequestMethod.POST)
+	public void save(@RequestBody ObjRequestConnectionSgbd requestConnectionSgbd) throws SQLException{
+		if(requestConnectionSgbd.getSgbdName().equalsIgnoreCase("SQLite")){
+			dbManager  = new DbManagerDefaultImpl();
+		} 
+		if(requestConnectionSgbd.getSgbdName().equalsIgnoreCase("PostgreSQL")){
+			System.out.println(requestConnectionSgbd.getUsername());
+			System.out.println(requestConnectionSgbd.getPort());
+			System.out.println(requestConnectionSgbd.getHostname());
+			System.out.println(requestConnectionSgbd.getPassword());
+			DbManager dbManager  = new DbManagerPostgres(requestConnectionSgbd.getUsername(), 
+														 requestConnectionSgbd.getPassword(),
+														 requestConnectionSgbd.getHostname(),
+														 requestConnectionSgbd.getPort());
+			if(dbManager.testConnection()){
+				this.dbManager = dbManager;
+			}
+			else{
+				throw new SQLException();
+			}
+		} 
+		System.out.println(requestConnectionSgbd.getSgbdName());
+	}
+		
 	
 	@RequestMapping(value = "/db/availables", method = RequestMethod.POST)
     public ObjResponse<ArrayList <String>> availablesDatabases() throws SQLException, ClassNotFoundException {	

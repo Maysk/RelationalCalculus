@@ -16,15 +16,70 @@ var app = angular.module('myApp',[])
 				
 	}
 	
+
 	$scope.selectedSgbd = "SQLite";
-	$scope.hostname = "aaa";
+	$scope.hostname = "";
 	$scope.port = "";
 	$scope.username = ""
 	$scope.password = "";
-	$scope.testeHostname = "";
 	
-	$scope.teste = function(){
-		console.log($scope.testeHostname)
+	
+	//modalSelectDatabase
+	$scope.openModalSelectDatabase = function(){
+		var modalSelectSGDB = $('#modalSelectDatabase');
+		modalSelectSGDB.modal();
+
+		$scope.selectionSgbd = $scope.selectedSgbd;
+		$scope.testHostname = $scope.hostname;
+		$scope.testPort = $scope.port;
+		$scope.testUsername = $scope.username;
+		$scope.testPassword = $scope.password;
+	}
+	
+	$scope.changeSgbd = function(){	
+		console.log($('#testHostname').val());
+		console.log($('#testPort').val());
+		console.log($('#testUsername').val());
+		console.log($('#testPassword').val());
+		
+		hostname = $('#testHostname').val()
+		port = $('#testPort').val()
+		username = $('#testUsername').val()
+		password = $('#testPassword').val()
+		
+		$scope.connectIntoSgbd($scope.selectionSgbd, hostname, port, username, password);
+	}
+	
+	$scope.connectIntoSgbd = function(sgbdName, hostname, port, username, password){
+		
+		var dataObj = {'sgbdName':sgbdName, 'hostname': hostname, 'port': port, 'username': username, 'password': password}
+		
+		
+		var httpResponse = $http.post('connectSgbd/' , dataObj);
+		httpResponse.success(function(data, status, headers, config) {
+			$scope.selectedSgbd = $scope.selectionSgbd;
+			$scope.hostname = $scope.testHostname;
+			$scope.port = $scope.testPort;
+			$scope.username = $scope.testUsername;
+			$scope.password = $scope.testPassword;
+			$scope.init();
+			var modalSelectSGDB = $('#modalSelectDatabase');
+			modalSelectSGDB.modal('hide');
+			$scope.dbSchema = null;
+			$scope.dbAvalilable = "";
+			$scope.cleanScope();
+			$scope.previousFocusedTextAreaId = null;
+			$("#submitFormula").attr("disabled", "disabled");
+			$("#cleanScope").attr("disabled", "disabled");
+			$("#projection").attr("readonly", "readonly");
+			$("#trcformula").attr("readonly", "readonly");
+			
+		});
+		
+		httpResponse.error(function(data, status, headers, config) {
+			alert( "failure message: " + JSON.stringify({data: data}));
+		});
+		
 	}
 	
 	$scope.cleanScope = function(){
@@ -41,11 +96,7 @@ var app = angular.module('myApp',[])
 		$("#errorsDiv").hide();
 		$("#listOfErrors").empty();
 	}
-	//modalSelectDatabase
-	$scope.openModalSelectDatabase = function(){
-		var modalSelectSGDB = $('#modalSelectDatabase');
-		modalSelectSGDB.modal();
-	}
+	
 	
 	$scope.loadDbSchema = function(){
 		var httpResponse = $http.post('db/listTables/'+ $scope.dbAvalilable, {});

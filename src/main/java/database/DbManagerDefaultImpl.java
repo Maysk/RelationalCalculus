@@ -64,4 +64,11 @@ public class DbManagerDefaultImpl extends DbManager{
 		availablesDbs.add("Database Systems The Complete Book - Exercise 2 4 1");
 		return availablesDbs;
 	}
+
+	@Override
+	public boolean testConnection() {
+		return true;
+	}
+	
+	
 }
