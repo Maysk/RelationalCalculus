@@ -36,9 +36,9 @@ textarea {
 				</span><br/>
 				<span style="font-weight: bold; padding-left: 20px">Name: </span>{{selectedSgbd}}<br/>
 				<div ng-if="!(selectedSgbd == 'SQLite')">
-					<span style="font-weight: bold; padding-left: 20px">Host: {{hostname}}<br/></span>
-					<span style="font-weight: bold; padding-left: 20px">Port: {{port}}<br/></span>
-					<span style="font-weight: bold; padding-left: 20px">Username: {{username}}<br/></span>
+					<span style="font-weight: bold; padding-left: 20px">Host: </span>{{hostname}}<br/>
+					<span style="font-weight: bold; padding-left: 20px">Port: </span>{{port}}<br/>
+					<span style="font-weight: bold; padding-left: 20px">Username: </span>{{username}}<br/>
 				</div>
 			</div>
 			<p class="lead"> Selelect Database:</p>
@@ -62,7 +62,7 @@ textarea {
 			    		
 			    		<!-- Projection -->
 			    		<div class = "lead">Projection</div> 
-			    		<textarea id="projection" class ="form-control input-lg" ng-model="projection" ng-blur="lastTextAreaFocused('projection')"  readonly="readonly"></textarea>
+			    		<textarea id="projection" class ="form-control input-lg" ng-model="projection" ng-blur="lastTextAreaFocused('projection')"  readonly="readonly" spellcheck="false"></textarea>
 			    		<br/>
 			    		
 			    		<!-- Predicate -->
@@ -85,7 +85,7 @@ textarea {
 							<a type="button" class="btn btn-primary" ng-click="addTextToFormulaBoxTrc('&lt;')" style="border-radius: 0em">&lt;</a>
 						</div>
 							
-			    		<textarea id="trcformula" class ="form-control input-lg" ng-model="trcformula" ng-blur="lastTextAreaFocused('trcformula')"  style="border-top-left-radius: 0em; border-top-right-radius: 0em;"  readonly="readonly"></textarea>
+			    		<textarea id="trcformula" class ="form-control input-lg" ng-model="trcformula" ng-blur="lastTextAreaFocused('trcformula')"  style="border-top-left-radius: 0em; border-top-right-radius: 0em;"  readonly="readonly" spellcheck="false"></textarea>
 			    					    	
 			    	</div>
 			    	<button id ="submitFormula" class="btn btn-success" ng-click="submitFormula()" disabled="disabled">Transform</button>
@@ -163,8 +163,8 @@ textarea {
 				<select ng-change="" ng-model="selectionSgbd" class="form-control input-lg">
 					<option selected="selected" value="SQLite">SQLite - Default</option>
 					<option value="PostgreSQL">PostgreSQL</option>
-					<option value="MySQL">MySQL</option>
-					<option value="SQLServer">SQL Server</option>
+					<option value="MySQL" disabled="disabled">MySQL</option>
+					<option value="SQLServer" disabled="disabled">SQL Server</option>
 				</select>
 				<br/>
 				<div ng-if="!(selectionSgbd == 'SQLite')">

@@ -38,12 +38,11 @@ public class DatabaseController {
 	DbManager dbManager = new DbManagerDefaultImpl();
 	//DbManager dbManager = new DbManagerPostgres("postgres", "260794", "localhost", "5432");
 	
-	
-	
 	@RequestMapping(value="/connectSgbd", method = RequestMethod.POST)
 	public void save(@RequestBody ObjRequestConnectionSgbd requestConnectionSgbd) throws SQLException{
 		if(requestConnectionSgbd.getSgbdName().equalsIgnoreCase("SQLite")){
 			dbManager  = new DbManagerDefaultImpl();
+			TrcController.dbManager = dbManager;
 		} 
 		if(requestConnectionSgbd.getSgbdName().equalsIgnoreCase("PostgreSQL")){
 			System.out.println(requestConnectionSgbd.getUsername());
@@ -56,6 +55,7 @@ public class DatabaseController {
 														 requestConnectionSgbd.getPort());
 			if(dbManager.testConnection()){
 				this.dbManager = dbManager;
+				TrcController.dbManager = dbManager;
 			}
 			else{
 				throw new SQLException();

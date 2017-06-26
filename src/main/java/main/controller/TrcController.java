@@ -33,7 +33,7 @@ import trcToSql.visitors.VisitorToString;
 @RestController
 public class TrcController {
 	
-	DbManager dbManager = new DbManagerDefaultImpl();
+	static DbManager dbManager = new DbManagerDefaultImpl();
 	
 	@RequestMapping(value = "/trc/converttosqlnf/{dbname}", method = RequestMethod.POST)
     public ObjResponse<HashMap<String, Object>> greeting(@RequestBody ObjRequest objModel, @PathVariable("dbname") String dbName) throws ParseException, ClassNotFoundException, SQLException {

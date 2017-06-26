@@ -57,11 +57,11 @@ var app = angular.module('myApp',[])
 		
 		var httpResponse = $http.post('connectSgbd/' , dataObj);
 		httpResponse.success(function(data, status, headers, config) {
-			$scope.selectedSgbd = $scope.selectionSgbd;
-			$scope.hostname = $scope.testHostname;
-			$scope.port = $scope.testPort;
-			$scope.username = $scope.testUsername;
-			$scope.password = $scope.testPassword;
+			$scope.selectedSgbd = sgbdName;
+			$scope.hostname = hostname;
+			$scope.port = port;
+			$scope.username = username;
+			$scope.password = password;
 			$scope.init();
 			var modalSelectSGDB = $('#modalSelectDatabase');
 			modalSelectSGDB.modal('hide');
