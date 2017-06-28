@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import database.DbManager;
 import database.DbManagerDefaultImpl;
+import database.DbManagerMySQL;
 import database.DbManagerPostgres;
 
 
@@ -60,7 +61,24 @@ public class DatabaseController {
 			else{
 				throw new SQLException();
 			}
-		} 
+		}
+		if(requestConnectionSgbd.getSgbdName().equalsIgnoreCase("MySQL")){
+			System.out.println(requestConnectionSgbd.getUsername());
+			System.out.println(requestConnectionSgbd.getPort());
+			System.out.println(requestConnectionSgbd.getHostname());
+			System.out.println(requestConnectionSgbd.getPassword());
+			DbManager dbManager  = new DbManagerMySQL(requestConnectionSgbd.getUsername(), 
+														 requestConnectionSgbd.getPassword(),
+														 requestConnectionSgbd.getHostname(),
+														 requestConnectionSgbd.getPort());
+			if(dbManager.testConnection()){
+				this.dbManager = dbManager;
+				TrcController.dbManager = dbManager;
+			}
+			else{
+				throw new SQLException();
+			}
+		}
 		System.out.println(requestConnectionSgbd.getSgbdName());
 	}
 		
