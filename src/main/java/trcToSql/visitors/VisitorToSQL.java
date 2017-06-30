@@ -178,10 +178,10 @@ public class VisitorToSQL implements VisitorString{
 	
 	public String visit(AtomicFormulaIsA n){
 		if(inNot > 0){
-			this.errorLog.addFormulaError("SafeQueryError: A formula " + n.table + "("+ n.tuple +") não pode ser negada!");
+			this.errorLog.addFormulaError("SafeQueryError: The formula " + n.table + "("+ n.tuple +") is negated!");
 		}
 		if(inOr > 0){
-			this.errorLog.addFormulaError("OutOfScopeError: A formula " + n.table + "("+ n.tuple +") está associada a um OU!");
+			this.errorLog.addFormulaError("OutOfScopeError: The formula " + n.table + "("+ n.tuple +") is associated to an OR!");
 		}
 		
 		this.sm.bindTupleToRelation(n.tuple, n.table);
