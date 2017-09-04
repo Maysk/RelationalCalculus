@@ -1,1 +1,1 @@
-java -jar TrcEducationalTool.jar
+java -jar eTRC.jar
