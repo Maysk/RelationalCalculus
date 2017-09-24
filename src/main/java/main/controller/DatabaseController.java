@@ -30,6 +30,7 @@ import database.DbManager;
 import database.DbManagerDefaultImpl;
 import database.DbManagerMySQL;
 import database.DbManagerPostgres;
+import database.DbManagerSQLServer;
 
 
 
@@ -79,6 +80,23 @@ public class DatabaseController {
 				throw new SQLException();
 			}
 		}
+		if(requestConnectionSgbd.getSgbdName().equalsIgnoreCase("SQLServer")){
+			System.out.println(requestConnectionSgbd.getUsername()==null);
+			System.out.println(requestConnectionSgbd.getPort());
+			System.out.println(requestConnectionSgbd.getHostname());
+			System.out.println(requestConnectionSgbd.getPassword());
+			DbManager dbManager  = new DbManagerSQLServer(requestConnectionSgbd.getUsername(), 
+														 requestConnectionSgbd.getPassword(),
+														 requestConnectionSgbd.getHostname(),
+														 requestConnectionSgbd.getPort());
+			if(dbManager.testConnection()){
+				this.dbManager = dbManager;
+				TrcController.dbManager = dbManager;
+			}
+			else{
+				throw new SQLException();
+			}
+		}		
 		System.out.println(requestConnectionSgbd.getSgbdName());
 	}
 		
